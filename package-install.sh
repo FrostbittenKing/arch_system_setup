@@ -24,5 +24,5 @@ genfstab -U $ROOT >> $ROOT/etc/fstab
 
 # download arch_system_setup
 #wget $ARCH_SETUP_ZIP -O $ROOT/tmp
-cp -r /installer/master $ROOT/TMP
+cp -r $INSTALLER_DIR $ROOT/tmp
 arch-chroot
