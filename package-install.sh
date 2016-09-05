@@ -10,4 +10,4 @@ Server = http://repo.archlinux.fr/$arch
 '>> /etc/pacman.conf
 
 #install packages with pacstrap
-cat $PACKAGE_LIST_INSTALL | xargs pacstram /mnt
+cat $PACKAGE_LIST_INSTALL | xargs pacstrap /mnt
