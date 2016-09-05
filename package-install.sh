@@ -9,7 +9,7 @@ SCRIPT_DIR_ROOT=/installer
 INSTALLER_DIR=/$SCRIPT_DIR_ROOT/arch_system_setup-master
 # needed packages
 pacman -Syu --noconfirm
-pacman -S unzip
+pacman -S --noconfirm unzip
 # fetch install package
 wget $ARCH_SETUP_ZIP -O master.zip
 mkdir $SCRIPT_DIR_ROOT
