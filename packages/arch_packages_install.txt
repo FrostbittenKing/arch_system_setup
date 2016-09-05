@@ -69,7 +69,6 @@ sshfs
 strace
 system-config-printer
 terminus-font
-texlive-most
 thunderbird
 tilda
 traceroute
