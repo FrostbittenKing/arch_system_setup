@@ -31,7 +31,7 @@ gnome-keyring
 gnome-system-monitor
 gnome-themes-standard
 gnuplot
-gnut-netcat
+gnu-netcat
 gptfdisk
 hdparm
 htop
@@ -90,3 +90,5 @@ xorg
 xorg-fonts
 xorg-xrandr
 zsh
+package-query
+yaourt
