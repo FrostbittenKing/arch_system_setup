@@ -7,6 +7,7 @@ ROOT=/mnt
 ARCH_SETUP_ZIP=https://github.com/FrostbittenKing/arch_system_setup/archive/master.zip
 SCRIPT_DIR_ROOT=/installer
 INSTALLER_DIR=/$SCRIPT_DIR_ROOT/arch_system_setup-master
+SYSTEM_SETUP_DIR=$INSTALLER_DIR/setup-system
 # needed packages
 pacman -Syu --noconfirm
 pacman -S --noconfirm unzip
@@ -18,11 +19,11 @@ unzip master.zip -d $SCRIPT_DIR_ROOT
 cp $INSTALLER_DIR/conf/pacman.conf /etc/pacman.conf
 
 #install packages with pacstrap
-cat $INSTALLER_DIR/$PACKAGE_LIST_INSTALL | xargs pacstrap /mnt
+cat $INSTALLER_DIR/$PACKAGE_LIST_INSTALL | xargs pacstrap $ROOT
 
 genfstab -U $ROOT >> $ROOT/etc/fstab
 
 # download arch_system_setup
 #wget $ARCH_SETUP_ZIP -O $ROOT/tmp
-cp -r $INSTALLER_DIR $ROOT/tmp
-arch-chroot
+cp -r $INSTALLER_DIR $ROOT
+arch-chroot $ROOT /bin/bash -c "$SYSTEM_SETUP_DIR/install.sh"
