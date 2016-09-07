@@ -1,12 +1,17 @@
 #!/bin/bash
 
+SCRIPT_DIR_ROOT=/installer
+INSTALLER_DIR=/$SCRIPT_DIR_ROOT/arch_system_setup-master
+PACKAGE_LIST_DIR=$INSTALLER_DIR/packages
+PACKAGE_LIST_AUR=$PACKAGE_LIST_DIR/arch_packages_aur.txt
+
 # configure timezone
 ln -s /usr/share/zoneinfo/Europe/Vienna /etc/localtime
 # not sure about that
 # hwclock --systohc --utc
 #enable english/german localization
-sed -ei 's/#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g' /etc/locale.gen
-sed -ei 's/#de_AT.UTF-8 UTF-8/de_AT.UTF-8 UTF-8/g' /etc/locale.gen
+sed -i 's/#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g' /etc/locale.gen
+sed -i 's/#de_AT.UTF-8 UTF-8/de_AT.UTF-8 UTF-8/g' /etc/locale.gen
 locale-gen
 echo LANG=en_US.UTF-8 > /etc/locale.conf
 # enable services
@@ -47,7 +52,19 @@ git config --global pull.default "current"
 git config --global difftool.latex.cmd "latexdiff $LOCAL $REMOTE"
 git config --global difftool.prompt "false"
 git config --global alias.ldiff "difftool -t latex"
+
+# install packages from aur
+# not sure about noconfirm 
+yaourt -S --noconfirm $(cat $PACKAGE_LIST_AUR)
 EOF
+
+# TODO configs
+# slim.conf
+# .xinitrc
+# .Xresources
+# .config/awesome
+# .config/autostart
+# oh-my-zsh .zshrc and meredrica theme
 
 echo "Please install a bootloader of your choice, or your system won't boot on the next reboot"
 echo "see https://wiki.archlinux.org/index.php/Category:Boot_loaders for more info"
