@@ -3,18 +3,48 @@
 CONF_DIR=conf
 PACKAGE_LIST_DIR=packages
 PACKAGE_LIST_INSTALL=$PACKAGE_LIST_DIR/arch_packages_install.txt
-ROOT=/mnt
-ARCH_SETUP_ZIP=https://github.com/FrostbittenKing/arch_system_setup/archive/master.zip
+ARCH_SETUP_ZIP=master.zip
 SCRIPT_DIR_ROOT=/installer
 INSTALLER_DIR=/$SCRIPT_DIR_ROOT/arch_system_setup-master
 SYSTEM_SETUP_DIR=$INSTALLER_DIR/setup-system
+ANSWER_FILE=arch_answers.txt
+
+function init_setup {
+    cat <<EOF > $ANSWER_FILE
+ARCH_SETUP_ZIP_URL=https://github.com/FrostbittenKing/arch_system_setup/archive/$ARCH_SETUP_ZIP
+ROOT=/mnt
+# list of services to enable
+SERVICE_LIST="dhcpcd.service NetworkManager.service"
+# change to your favorite Display manager
+DM="slim.service"
+TIMEZONE=Europe/Vienna
+LOCALIZATIONS=("en_US.UTF-8 UTF-8" "de_AT.UTF-8 UTF-8")
+SYS_LANGUAGE='LANG=en_US.UTF-8'
+USERNAME=itachi
+EOF
+    echo "Answer File $ANSWER_FILE written, please customize it to suit your purpose or restart this shell script"
+}
+
+function copy_cfg_to_target {
+    cp -r $INSTALLER_DIR $ROOT
+    cp ANSWER_FILE $ROOT
+}
+
+# test for initialized answer file
+if [ ! -f $ANSWER_FILE ]; then
+    init_setup
+    exit 0
+fi
+
+. $ANSWER_FILE
+
 # needed packages
 pacman -Syu --noconfirm
 pacman -S --noconfirm unzip
 # fetch install package
-wget $ARCH_SETUP_ZIP -O master.zip
+wget $ARCH_SETUP_ZIP_URL -O ARCH_SETUP_ZIP
 mkdir $SCRIPT_DIR_ROOT
-unzip master.zip -d $SCRIPT_DIR_ROOT
+unzip $ARCH_SETUP_ZIP -d $SCRIPT_DIR_ROOT
 # copy pacman.conf
 cp $INSTALLER_DIR/conf/pacman.conf /etc/pacman.conf
 
@@ -23,7 +53,7 @@ cat $INSTALLER_DIR/$PACKAGE_LIST_INSTALL | xargs pacstrap $ROOT
 
 genfstab -U $ROOT >> $ROOT/etc/fstab
 
-# download arch_system_setup
-#wget $ARCH_SETUP_ZIP -O $ROOT/tmp
-cp -r $INSTALLER_DIR $ROOT
+# copy necessary files to target mount point
+copy_cfg_to_target
+
 arch-chroot $ROOT /bin/bash -c "$SYSTEM_SETUP_DIR/install.sh"

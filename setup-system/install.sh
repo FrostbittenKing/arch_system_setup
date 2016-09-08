@@ -4,20 +4,25 @@ SCRIPT_DIR_ROOT=/installer
 INSTALLER_DIR=/$SCRIPT_DIR_ROOT/arch_system_setup-master
 PACKAGE_LIST_DIR=$INSTALLER_DIR/packages
 PACKAGE_LIST_AUR=$PACKAGE_LIST_DIR/arch_packages_aur.txt
+ANSWER_FILE=/arch_answers.txt
 
-# list of services to enable
-SERVICE_LIST="dhcpcd.service NetworkManager.service"
-# change to your favorite Display manager
-DM="slim.service"
+# source answer file
+. $ANSWER_FILE
 # configure timezone
-ln -s /usr/share/zoneinfo/Europe/Vienna /etc/localtime
+ln -s /usr/share/zoneinfo/$TIMEZONE /etc/localtime
 # not sure about that
 # hwclock --systohc --utc
-#enable english/german localization
-sed -i 's/#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g' /etc/locale.gen
-sed -i 's/#de_AT.UTF-8 UTF-8/de_AT.UTF-8 UTF-8/g' /etc/locale.gen
+#enable localizations
+for l in "${LOCALIZATIONS[@]}"
+do
+    sed -i "s/#$l/$l/g" /etc/locale.gen
+done
+#sed -i 's/#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g' /etc/locale.gen
+#sed -i 's/#de_AT.UTF-8 UTF-8/de_AT.UTF-8 UTF-8/g' /etc/locale.gen
+
 locale-gen
-echo LANG=en_US.UTF-8 > /etc/locale.conf
+
+echo $SYS_LANGUAGE > /etc/locale.conf
 # enable services
 systemctl enable $SERVICE_LIST
 
@@ -36,13 +41,13 @@ echo "enter new root password";passwd
 # ln -s /etc/fonts/conf.avail/65-ttf-droid-serif-fontconfig.conf /etc/fonts/conf.d/
 
 # create user
-echo "please enter a username for your account: "; read username
-useradd -m -G disk,wheel,uucp,games,lock,kvm,video -s /usr/bin/zsh $username
-echo "get PASSWORD $username: "; passwd $username
+# echo "please enter a username for your account: "; read username
+useradd -m -G disk,wheel,uucp,games,lock,kvm,video -s /usr/bin/zsh $USERNAME
+echo "get PASSWORD $username: "; passwd $USERNAME
 
 # enable sudo
 read -p "uncomment wheel group in /etc/sudoers"; visudo
-su - $username <<'EOF'
+su - $USERNAME <<'EOF'
 # install oh my zsh
 sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 
