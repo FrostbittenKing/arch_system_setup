@@ -1,0 +1,2 @@
+#XBOX Controller
+SUBSYSTEM=="usb", ATTRS{idVendor}=="045e", ATTRS{idProduct}=="0719", GROUP="gamepads", MODE="0664"

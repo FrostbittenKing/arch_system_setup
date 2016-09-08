@@ -1,0 +1,1 @@
+KERNEL=="uinput", SUBSYSTEM=="misc", GROUP="gamepads", MODE="0660"

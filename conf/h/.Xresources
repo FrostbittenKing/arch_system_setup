@@ -1,0 +1,27 @@
+URxvt.perl-ext-common:  default,matcher,tabbed,fullscreen,font-size,vtwheel
+URxvt.iso14755: false
+URxvt.iso14755_52: false
+URxvt.font: xft:Terminus:autohint=true:antialias=true:pixelsize=12:dpi=94
+!URxvt.font: xft:Droid Sans Mono:autohint=true:antialias=true:pixelsize=12:dpi=94
+URxvt.letterSpace: 0
+URxvt*depth: 32
+!URxvt.background: rgb:0000/0000/0000
+URxvt.url-launcher:      /usr/bin/firefox
+URxvt.matcher.button:   1
+URxvt.colorUL: #4682B4
+URxvt.saveLines: 10000
+URxvt.scrollBar: false
+!breaks navigation in Vim
+! URxvt.keysym.Home : \033[H 
+! URxvt.keysym.End : \033[F 
+!breaks navigation in Vim
+URxvt.keysym.F11: perl:fullscreen:switch
+URxvt.keysym.C-S-Up: perl:font-size:increase
+URxvt.keysym.C-S-Down: perl:font-size:decrease
+URxvt.urgentOnBell: True
+URxvt*modifier: alt
+URxvt.secondaryScreen: 1
+URxvt.secondaryScroll: 0
+
+URxvt.foreground: white
+URxvt.background: black

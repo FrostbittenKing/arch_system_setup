@@ -30,6 +30,5 @@ which configures the system after entering the chroot
 dont forget to install a bootloader like grub
 
 # todo:
-- cleanup (ask for username etc.)
-- copy my configuration files (slim,xinitrc etc.)
-	
+- add routines to copy various config files to their destinations
+- checkout my awesome-wm and emacs config from git and copy them to their destinations
