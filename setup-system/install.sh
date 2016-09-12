@@ -5,9 +5,19 @@ INSTALLER_DIR=/$SCRIPT_DIR_ROOT/arch_system_setup-master
 PACKAGE_LIST_DIR=$INSTALLER_DIR/packages
 PACKAGE_LIST_AUR=$PACKAGE_LIST_DIR/arch_packages_aur.txt
 ANSWER_FILE=/arch_answers.txt
-
+CONF_DIR=$INSTALLER_DIR/conf
 # source answer file
 . $ANSWER_FILE
+
+# copy user configs
+function copy_system_configs {
+    cp -r $CONF_DIR/etc /etc
+}
+
+function copy_user_configs {
+    cp -r $CONF_DIR/h/* /home/$USERNAME
+}
+
 # configure timezone
 ln -s /usr/share/zoneinfo/$TIMEZONE /etc/localtime
 # not sure about that
@@ -81,6 +91,8 @@ EOF
 # .config/awesome
 # .config/autostart
 # oh-my-zsh .zshrc and meredrica theme
+copy_system_configs
+copy_user_configs
 
 echo "Please install a bootloader of your choice, or your system won't boot on the next reboot"
 echo "see https://wiki.archlinux.org/index.php/Category:Boot_loaders for more info"
