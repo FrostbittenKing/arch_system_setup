@@ -11,11 +11,11 @@ CONF_DIR=$INSTALLER_DIR/conf
 
 # copy user configs
 function copy_system_configs {
-    cp -r $CONF_DIR/etc /etc
+    cp -a $CONF_DIR/etc /etc
 }
 
 function copy_user_configs {
-    cp -r $CONF_DIR/h/* /home/$USERNAME
+    cp -a $CONF_DIR/h/. /home/$USERNAME
 }
 
 # configure timezone
