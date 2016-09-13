@@ -26,6 +26,7 @@ libpki
 libpng14
 log4j
 netcfg
+oh-my-zsh-git
 pacutils
 pdf2htmlex-git
 pkgtools
