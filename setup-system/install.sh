@@ -27,8 +27,6 @@ for l in "${LOCALIZATIONS[@]}"
 do
     sed -i "s/#$l/$l/g" /etc/locale.gen
 done
-#sed -i 's/#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g' /etc/locale.gen
-#sed -i 's/#de_AT.UTF-8 UTF-8/de_AT.UTF-8 UTF-8/g' /etc/locale.gen
 
 locale-gen
 

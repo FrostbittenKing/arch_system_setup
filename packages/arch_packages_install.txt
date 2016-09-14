@@ -85,6 +85,7 @@ ttf-liberation
 ttf-linux-libertine
 ttf-ubraille
 ttf-ubuntu-font-family
+vicious
 volumeicon
 wget
 xorg

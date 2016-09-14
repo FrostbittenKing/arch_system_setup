@@ -3,6 +3,7 @@ android-sdk-build-tools
 android-sdk-platform-tools
 arduino
 arduino-mk
+blingbling
 brother-cups-wrapper-ac
 brother-cups-wrapper-common
 brother-lpr-drivers-ac
