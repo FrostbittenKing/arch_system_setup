@@ -18,6 +18,19 @@ function copy_user_configs {
     cp -a $CONF_DIR/h/. /home/$USERNAME
 }
 
+function copy_git_configs {
+    for grepo in "${EXTERN_CONFIGS_GIT}"
+    do
+	git clone $grepo
+	repo_name=${grepo##*/}
+	repo_dir=${repo_name%.*}
+	cd $repo_dir
+	make install
+	cd ..
+	rm -rf $repo_dir
+    done
+}
+
 # configure timezone
 ln -s /usr/share/zoneinfo/$TIMEZONE /etc/localtime
 # not sure about that
