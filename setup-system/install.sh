@@ -64,7 +64,7 @@ echo "enter new root password";passwd
 # create user
 # echo "please enter a username for your account: "; read username
 useradd -m -G disk,wheel,uucp,games,lock,kvm,video -s /usr/bin/zsh $USERNAME
-echo "get PASSWORD $username: "; passwd $USERNAME
+echo "get PASSWORD $USERNAME: "; passwd $USERNAME
 
 # enable sudo
 read -p "uncomment wheel group in /etc/sudoers"; visudo
