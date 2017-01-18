@@ -1,7 +1,6 @@
 #!/bin/bash
 
-SCRIPT_DIR_ROOT=/installer
-INSTALLER_DIR=/$SCRIPT_DIR_ROOT/arch_system_setup-master
+INSTALLER_DIR=/arch_system_setup-master
 PACKAGE_LIST_DIR=$INSTALLER_DIR/packages
 PACKAGE_LIST_AUR=$PACKAGE_LIST_DIR/arch_packages_aur.txt
 ANSWER_FILE=/arch_answers.txt
