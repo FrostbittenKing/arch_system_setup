@@ -28,7 +28,7 @@ EOF
 
 function copy_cfg_to_target {
     cp -r $INSTALLER_DIR $ROOT
-    cp ANSWER_FILE $ROOT
+    cp $ANSWER_FILE $ROOT
 }
 
 # test for initialized answer file
