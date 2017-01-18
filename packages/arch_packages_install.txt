@@ -88,6 +88,7 @@ ttf-linux-libertine
 ttf-ubraille
 ttf-ubuntu-font-family
 vicious
+vim
 volumeicon
 wget
 xorg
