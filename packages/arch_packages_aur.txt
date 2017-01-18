@@ -13,9 +13,12 @@ docker-compose-bin
 esptool-git
 esptool2-git
 gcc-multilib
+git-latexdiff
 google-chrome
 google-musicmanager
 google-talkplugin
+grub2-theme-archlinux
+grub2-theme-archxion
 heimdall-git
 intel2gas
 jabref
@@ -26,6 +29,7 @@ lfm
 libpki
 libpng14
 log4j
+lxdm-git
 netcfg
 oh-my-zsh-git
 pacutils
@@ -46,6 +50,7 @@ urxvt-vtwheel
 usbasp-udev
 virtualbox-bin
 virtualbox-ext-oracle
+wimlib
 xfce4-quicklauncher-plugin
 xz-git
 yubikey-neo-manager-git

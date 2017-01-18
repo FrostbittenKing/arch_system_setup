@@ -2,7 +2,7 @@
 # Any customization should be done in ~/.gtkrc-2.0.mine instead.
 
 include "/home/itachi/.gtkrc-2.0.mine"
-gtk-theme-name="Xfce-dusk"
+gtk-theme-name="Xfce-dusk-gtk3"
 gtk-icon-theme-name="Adwaita"
 gtk-font-name="Droid Sans 11"
 gtk-cursor-theme-name="Adwaita"

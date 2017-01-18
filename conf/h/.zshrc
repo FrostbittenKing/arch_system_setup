@@ -8,12 +8,6 @@ ZSH_CUSTOM=$HOME/.oh-my-zsh
 # time that oh-my-zsh is loaded.
 ZSH_THEME="itachi"
 
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-alias xz='xz -T0'
-alias nautilus='nautilus --no-desktop'
-alias arduino='_JAVA_AWT_WM_NONREPARENTING= arduino'
 # Set to this to use case-sensitive completion
 # CASE_SENSITIVE="true"
 
@@ -32,7 +26,9 @@ alias arduino='_JAVA_AWT_WM_NONREPARENTING= arduino'
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git)
+
+# load helpers plugin for custom functions eg: for alias helpers
+plugins=(git helpers)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -51,6 +47,4 @@ TERMINFO=~/.terminfo
 bindkey "${terminfo[khome]}" beginning-of-line
 bindkey "${terminfo[kend]}" end-of-line
 eval $(dircolors -b)
-
-alias grep="/usr/bin/grep $GREP_OPTIONS"
 unset GREP_OPTIONS

@@ -49,6 +49,7 @@ ntfs-3g
 openssh
 os-prober
 p7zip
+package-query
 pavucontrol
 phonon-qt4-gstreamer
 phonon-qt5-gstreamer
@@ -69,6 +70,7 @@ sshfs
 strace
 system-config-printer
 terminus-font
+texlive-most
 thunderbird
 tilda
 traceroute
@@ -91,6 +93,5 @@ wget
 xorg
 xorg-fonts
 xorg-xrandr
-zsh
-package-query
 yaourt
+zsh

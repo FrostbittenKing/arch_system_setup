@@ -16,7 +16,7 @@ ROOT=/mnt
 # list of services to enable
 SERVICE_LIST="dhcpcd.service NetworkManager.service"
 # change to your favorite Display manager
-DM="slim.service"
+DM="lxdm.service"
 TIMEZONE=Europe/Vienna
 LOCALIZATIONS=("en_US.UTF-8 UTF-8" "de_AT.UTF-8 UTF-8")
 SYS_LANGUAGE='LANG=en_US.UTF-8'

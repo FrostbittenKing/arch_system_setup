@@ -16,7 +16,7 @@ sub run_makeglossaries {
 
 push @generated_exts, 'glo', 'gls', 'glg';
 push @generated_exts, 'acn', 'acr', 'alg';
-$clean_ext .= ' %R.ist %R.xdy run.xml glsdefs loa lol %R.pdf %R-blx.bib';
+$clean_ext .= ' %R.ist %R.xdy run.xml glsdefs loa lol %R.pdf %R-blx.bib mw tdo';
 $bibtex_use = 2;
 $pdf_mode = 1;
 $preview_continuous_mode = 1;

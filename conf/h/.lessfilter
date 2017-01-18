@@ -1,0 +1,7 @@
+#!/bin/bash
+
+case "$1" in
+    *.md)
+	markdown "$1" | lynx -stdin -dump -width 200
+	;;
+esac

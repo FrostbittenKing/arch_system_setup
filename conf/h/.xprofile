@@ -23,21 +23,13 @@ xrdb -merge ~/.Xresources
 # ...or the Window Manager of your choice
 
 # MY_SESSION=awesome
-case "$1" in
-    awesome)
-	eval `ssh-agent`
-	eval `gnome-keyring-daemon --start`
+eval `ssh-agent`
+eval `gnome-keyring-daemon --start`
 	# possibly not needed anymore according to https://bbs.archlinux.org/viewtopic.php?pid=1432754#p1432754
 #	export SSH_AUTH_SOCK GPG_AGENT_INFO
-	setxkbmap -layout us -variant altgr-intl -option 'terminate:ctrl_alt_bksp'
+setxkbmap -layout us -variant altgr-intl -option 'terminate:ctrl_alt_bksp'
 	# According to https://awesome.naquadah.org/wiki/Problems_with_Java, as of this commit g102063d
 	# the below fix is not needed any more, since apparently, Awesome WM is now a reparenting Window Manager
 	# wmname LG3D
 	# dex -a -e awesome &    
-	compton &
-	exec $1 >> ~/.awesome_stdout 2>> ~/.awesome_stderr
-	;;
-
-    xfce4)
-	exec startxfce4
-esac
+compton &	
