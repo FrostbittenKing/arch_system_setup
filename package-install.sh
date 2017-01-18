@@ -6,13 +6,13 @@ PACKAGE_LIST_INSTALL=$PACKAGE_LIST_DIR/arch_packages_install.txt
 ARCH_SETUP_ZIP=master.zip
 SCRIPT_DIR_ROOT=/installer
 INSTALLER_DIR=/$SCRIPT_DIR_ROOT/arch_system_setup-master
-SYSTEM_SETUP_DIR=$INSTALLER_DIR/setup-system
 ANSWER_FILE=arch_answers.txt
 
 function init_setup {
     cat <<EOF > $ANSWER_FILE
 ARCH_SETUP_ZIP_URL=https://github.com/FrostbittenKing/arch_system_setup/archive/$ARCH_SETUP_ZIP
 ROOT=/mnt
+SYSTEM_SETUP_DIR=$ROOT/arch_system_setup-master/setup-system
 # list of services to enable
 SERVICE_LIST="dhcpcd.service NetworkManager.service"
 # change to your favorite Display manager
@@ -57,4 +57,4 @@ genfstab -U $ROOT >> $ROOT/etc/fstab
 # copy necessary files to target mount point
 copy_cfg_to_target
 
-arch-chroot $ROOT /bin/bash -c "$SYSTEM_SETUP_DIR/install.sh"
+arch-chroot $ROOT /bin/bash "$SYSTEM_SETUP_DIR/install.sh"
