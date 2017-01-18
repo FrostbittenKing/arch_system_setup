@@ -43,7 +43,7 @@ fi
 pacman -Syu --noconfirm
 pacman -S --noconfirm unzip
 # fetch install package
-wget $ARCH_SETUP_ZIP_URL -O ARCH_SETUP_ZIP
+wget $ARCH_SETUP_ZIP_URL -O $ARCH_SETUP_ZIP
 mkdir $SCRIPT_DIR_ROOT
 unzip $ARCH_SETUP_ZIP -d $SCRIPT_DIR_ROOT
 # copy pacman.conf
