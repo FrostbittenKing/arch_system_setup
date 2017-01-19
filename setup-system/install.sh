@@ -67,7 +67,8 @@ echo "get PASSWORD $USERNAME: "; passwd $USERNAME
 
 # enable sudo
 read -p "uncomment wheel group in /etc/sudoers"; visudo
-su - $USERNAME <<'EOF'
+su $USERNAME <<'EOF'
+cd $HOME
 # install oh my zsh
 sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 
