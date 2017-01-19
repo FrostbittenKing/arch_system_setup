@@ -18,6 +18,7 @@ emacs-nox
 eog
 ethtool
 evince
+feh
 file-roller
 firefox
 flashplugin
@@ -25,6 +26,8 @@ fontconfig
 foomatic-db
 foomatic-db-nonfree
 freerdp
+gcc-multilib
+gsettings-desktop-schemas
 ghex
 git
 gnome-calculator
@@ -42,6 +45,8 @@ jdk8-openjdk
 lxappearance
 maxima
 nautilus-dropbox
+net-tools
+networkmanager
 network-manager-applet
 networkmanager-openvpn
 networkmanager-vpnc
