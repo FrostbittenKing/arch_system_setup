@@ -15,6 +15,7 @@ function copy_system_configs {
 
 function copy_user_configs {
     cp -a $CONF_DIR/h/. /home/$USERNAME
+    chown -R $USERNAME.$USERNAME /home/$USERNAME
 }
 
 function copy_git_configs {
@@ -63,9 +64,9 @@ echo "get PASSWORD $USERNAME: "; passwd $USERNAME
 read -p "uncomment wheel group in /etc/sudoers"; visudo
 
 copy_system_configs
+copy_user_configs
 su $USERNAME <<'EOF'
 cd $HOME
-copy_user_configs
 
 # git config
 git config --global user.email "eugen.dahm@gmail.com"
