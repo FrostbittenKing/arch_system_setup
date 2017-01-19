@@ -67,8 +67,6 @@ rsync
 samba
 screen
 scrot
-slim
-slim-themes
 smartmontools
 smbnetfs
 sshfs

@@ -40,7 +40,7 @@ fi
 . $ANSWER_FILE
 
 # needed packages
-pacman -Syu --noconfirm
+pacman -Sy --noconfirm
 pacman -S --noconfirm unzip
 # fetch install package
 wget $ARCH_SETUP_ZIP_URL -O $ARCH_SETUP_ZIP

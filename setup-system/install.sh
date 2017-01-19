@@ -1,8 +1,6 @@
 #!/bin/bash
 
 INSTALLER_DIR=/arch_system_setup-master
-PACKAGE_LIST_DIR=$INSTALLER_DIR/packages
-PACKAGE_LIST_AUR=$PACKAGE_LIST_DIR/arch_packages_aur.txt
 ANSWER_FILE=/arch_answers.txt
 CONF_DIR=$INSTALLER_DIR/conf
 # source answer file
@@ -10,26 +8,10 @@ CONF_DIR=$INSTALLER_DIR/conf
 
 # copy user configs
 function copy_system_configs {
-    cp -a $CONF_DIR/etc /etc
+    cp -a $CONF_DIR/etc /
+    cp -a $CONF_DIR/pacman.conf /etc
 }
 
-function copy_user_configs {
-    cp -a $CONF_DIR/h/. /home/$USERNAME
-    chown -R $USERNAME.$USERNAME /home/$USERNAME
-}
-
-function copy_git_configs {
-    for grepo in "${EXTERN_CONFIGS_GIT}"
-    do
-	git clone $grepo
-	repo_name=${grepo##*/}
-	repo_dir=${repo_name%.*}
-	cd $repo_dir
-	make install
-	cd ..
-	rm -rf $repo_dir
-    done
-}
 
 # configure timezone
 ln -s /usr/share/zoneinfo/$TIMEZONE /etc/localtime
@@ -64,10 +46,33 @@ echo "get PASSWORD $USERNAME: "; passwd $USERNAME
 read -p "uncomment wheel group in /etc/sudoers"; visudo
 
 copy_system_configs
-copy_user_configs
+export INSTALLER_DIR ANSWER_FILE
 su $USERNAME <<'EOF'
-cd $HOME
+PACKAGE_LIST_DIR=$INSTALLER_DIR/packages
+PACKAGE_LIST_AUR=$PACKAGE_LIST_DIR/arch_packages_aur.txt
+. $ANSWER_FILE
 
+function copy_git_configs {
+    for grepo in "${EXTERN_CONFIGS_GIT}"
+    do
+	git clone $grepo
+	repo_name=${grepo##*/}
+	repo_dir=${repo_name%.*}
+	cd $repo_dir
+	make install
+	cd ..
+	rm -rf $repo_dir
+    done
+}
+
+function copy_user_configs {
+    cp -a $CONF_DIR/h/. $HOME
+    copy_git_configs
+#    chown -R $USERNAME.$USERNAME /home/$USERNAME
+}
+
+
+cd /tmp
 # git config
 git config --global user.email "eugen.dahm@gmail.com"
 git config --global user.name "Eugen Dahm"
@@ -88,6 +93,8 @@ git config --global alias.ldiff "difftool -t latex"
 # install packages from aur
 # not sure about noconfirm 
 yes | yaourt -S --noconfirm $(cat $PACKAGE_LIST_AUR)
+
+copy_user_configs
 EOF
 
 # enable services
@@ -98,7 +105,7 @@ systemctl enable $DM
 
 # TODO configs
 # maybe fetch from its own repository, idk
-copy_git_configs
+# copy_git_configs
 
 echo "Please install a bootloader of your choice, or your system won't boot on the next reboot"
 echo "see https://wiki.archlinux.org/index.php/Category:Boot_loaders for more info"

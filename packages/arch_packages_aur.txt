@@ -6,7 +6,6 @@ arduino-mk
 blingbling
 compton-git
 dex
-dex2jar
 git-latexdiff
 google-chrome
 google-musicmanager
