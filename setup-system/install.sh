@@ -43,12 +43,6 @@ done
 locale-gen
 
 echo $SYS_LANGUAGE > /etc/locale.conf
-# enable services
-systemctl enable $SERVICE_LIST
-
-#enable display manager
-systemctl enable $DM
-
 # create initramfs
 mkinitcpio -p linux
 
@@ -92,17 +86,18 @@ git config --global alias.ldiff "difftool -t latex"
 
 # install packages from aur
 # not sure about noconfirm 
-yaourt -S --noconfirm $(cat $PACKAGE_LIST_AUR)
+yes | yaourt -S --noconfirm $(cat $PACKAGE_LIST_AUR)
 EOF
+
+# enable services
+systemctl enable $SERVICE_LIST
+
+#enable display manager
+systemctl enable $DM
 
 # TODO configs
 # maybe fetch from its own repository, idk
-# slim.conf
-# .xinitrc
-# .Xresources
-# .config/awesome
-# .config/autostart
-# oh-my-zsh .zshrc and meredrica theme
+copy_git_configs
 
 echo "Please install a bootloader of your choice, or your system won't boot on the next reboot"
 echo "see https://wiki.archlinux.org/index.php/Category:Boot_loaders for more info"
