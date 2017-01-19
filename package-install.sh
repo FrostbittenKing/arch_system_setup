@@ -3,14 +3,14 @@
 CONF_DIR=conf
 PACKAGE_LIST_DIR=packages
 PACKAGE_LIST_INSTALL=$PACKAGE_LIST_DIR/arch_packages_install.txt
-ARCH_SETUP_ZIP=master.zip
+ARCH_SETUP_TAR=master.tar.gz
 SCRIPT_DIR_ROOT=/installer
 INSTALLER_DIR=/$SCRIPT_DIR_ROOT/arch_system_setup-master
 ANSWER_FILE=arch_answers.txt
 
 function init_setup {
     cat <<EOF > $ANSWER_FILE
-ARCH_SETUP_ZIP_URL=https://github.com/FrostbittenKing/arch_system_setup/archive/$ARCH_SETUP_ZIP
+ARCH_SETUP_TAR_URL=https://github.com/FrostbittenKing/arch_system_setup/archive/$ARCH_SETUP_TAR
 ROOT=/mnt
 SYSTEM_SETUP_DIR=$ROOT/arch_system_setup-master/setup-system
 # list of services to enable
@@ -39,13 +39,10 @@ fi
 
 . $ANSWER_FILE
 
-# needed packages
-pacman -Sy --noconfirm
-pacman -S --noconfirm unzip
 # fetch install package
-wget $ARCH_SETUP_ZIP_URL -O $ARCH_SETUP_ZIP
+wget $ARCH_SETUP_TAR_URL -O $ARCH_SETUP_TAR
 mkdir $SCRIPT_DIR_ROOT
-unzip $ARCH_SETUP_ZIP -d $SCRIPT_DIR_ROOT
+tar -xzf $ARCH_SETUP_TAR -C $SCRIPT_DIR_ROOT
 # copy pacman.conf
 cp $INSTALLER_DIR/conf/pacman.conf /etc/pacman.conf
 
