@@ -67,10 +67,11 @@ echo "get PASSWORD $USERNAME: "; passwd $USERNAME
 
 # enable sudo
 read -p "uncomment wheel group in /etc/sudoers"; visudo
+
+copy_system_configs
 su $USERNAME <<'EOF'
 cd $HOME
-# install oh my zsh
-sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+copy_user_configs
 
 # git config
 git config --global user.email "eugen.dahm@gmail.com"
@@ -102,8 +103,6 @@ EOF
 # .config/awesome
 # .config/autostart
 # oh-my-zsh .zshrc and meredrica theme
-copy_system_configs
-copy_user_configs
 
 echo "Please install a bootloader of your choice, or your system won't boot on the next reboot"
 echo "see https://wiki.archlinux.org/index.php/Category:Boot_loaders for more info"
