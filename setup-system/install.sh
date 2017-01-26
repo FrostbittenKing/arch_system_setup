@@ -46,7 +46,7 @@ echo "get PASSWORD $USERNAME: "; passwd $USERNAME
 read -p "uncomment wheel group in /etc/sudoers"; visudo
 
 copy_system_configs
-export INSTALLER_DIR ANSWER_FILE
+export INSTALLER_DIR ANSWER_FILE CONF_DIR
 su $USERNAME <<'EOF'
 . $ANSWER_FILE
 
@@ -69,9 +69,10 @@ function copy_user_configs {
 #    chown -R $USERNAME.$USERNAME /home/$USERNAME
 }
 
+cd /tmp 
 copy_user_configs
 # create .zlogin file for last installation steps
-echo '$HOME/setup-complete.sh' >> .zlogin'
+echo '$HOME/setup-complete.sh' >> .zlogin
 cp $INSTALLER_DIR/setup-system/setup-complete.sh $HOME
 chmod +x $HOME/setup-complete.sh
 EOF
@@ -88,4 +89,3 @@ systemctl enable $DM
 
 echo "Please install a bootloader of your choice, or your system won't boot on the next reboot"
 echo "see https://wiki.archlinux.org/index.php/Category:Boot_loaders for more info"
-
