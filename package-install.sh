@@ -21,7 +21,9 @@ TIMEZONE=Europe/Vienna
 LOCALIZATIONS=("en_US.UTF-8 UTF-8" "de_AT.UTF-8 UTF-8")
 SYS_LANGUAGE='LANG=en_US.UTF-8'
 USERNAME=itachi
+DEFAULT_SHELL=/usr/bin/zsh
 EXTERN_CONFIGS_GIT=(https://github.com/FrostbittenKing/awesome-wm-config.git)
+INSTALL_OPTIONAL_PACKAGES=1
 EOF
     echo "Answer File $ANSWER_FILE written, please customize it to suit your purpose or restart this shell script"
 }

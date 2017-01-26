@@ -43,6 +43,7 @@ htop
 hwinfo
 jdk8-openjdk
 lxappearance
+lxdm
 maxima
 nautilus-dropbox
 net-tools

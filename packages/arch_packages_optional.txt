@@ -1,0 +1,14 @@
+android-sdk
+android-sdk-build-tools
+android-sdk-platform-tools
+arduino
+arduino-mk
+heimdall-git
+intel2gas
+jabref
+jd-gui
+latex-make
+sslsniff
+tcptraceroute
+texlive-most
+usbasp-udev

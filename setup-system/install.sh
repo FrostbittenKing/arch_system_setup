@@ -39,7 +39,7 @@ echo "enter new root password";passwd
 
 # create user
 # echo "please enter a username for your account: "; read username
-useradd -m -G disk,wheel,uucp,games,lock,kvm,video -s /usr/bin/zsh $USERNAME
+useradd -m -G disk,wheel,uucp,games,lock,kvm,video -s $DEFAULT_SHELL $USERNAME
 echo "get PASSWORD $USERNAME: "; passwd $USERNAME
 
 # enable sudo
@@ -48,8 +48,6 @@ read -p "uncomment wheel group in /etc/sudoers"; visudo
 copy_system_configs
 export INSTALLER_DIR ANSWER_FILE
 su $USERNAME <<'EOF'
-PACKAGE_LIST_DIR=$INSTALLER_DIR/packages
-PACKAGE_LIST_AUR=$PACKAGE_LIST_DIR/arch_packages_aur.txt
 . $ANSWER_FILE
 
 function copy_git_configs {
@@ -71,30 +69,11 @@ function copy_user_configs {
 #    chown -R $USERNAME.$USERNAME /home/$USERNAME
 }
 
-
-cd /tmp
-# git config
-git config --global user.email "eugen.dahm@gmail.com"
-git config --global user.name "Eugen Dahm"
-git config --global color.diff "auto"
-git config --global color.status "auto"
-git config --global color.branch "auto"
-git config --global alias.lg "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
-git config --global core.editor "emacs -nw"
-git config --global core.excludefile "$HOME/.gitignore"
-git config --global github.user "FrostbittenKing"
-git config --global tar.tar.xz.command "xz -T0 -c"
-git config --global push.default "current"
-git config --global pull.default "current"
-git config --global difftool.latex.cmd "latexdiff $LOCAL $REMOTE"
-git config --global difftool.prompt "false"
-git config --global alias.ldiff "difftool -t latex"
-
-# install packages from aur
-# not sure about noconfirm 
-yes | yaourt -S --noconfirm $(cat $PACKAGE_LIST_AUR)
-
 copy_user_configs
+# create .zlogin file for last installation steps
+echo '$HOME/setup-complete.sh' >> .zlogin'
+cp $INSTALLER_DIR/setup-system/setup-complete.sh $HOME
+chmod +x $HOME/setup-complete.sh
 EOF
 
 # enable services
