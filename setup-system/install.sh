@@ -71,10 +71,11 @@ function copy_user_configs {
 
 cd /tmp 
 copy_user_configs
+cd $HOME
 # create .zlogin file for last installation steps
 echo '$HOME/setup-complete.sh' >> .zlogin
-cp $INSTALLER_DIR/setup-system/setup-complete.sh $HOME
-chmod +x $HOME/setup-complete.sh
+cp $INSTALLER_DIR/setup-system/setup-complete.sh .
+chmod +x setup-complete.sh
 EOF
 
 # enable services
