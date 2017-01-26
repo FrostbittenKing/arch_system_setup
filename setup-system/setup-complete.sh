@@ -7,16 +7,31 @@ ANSWER_FILE=/arch_answers.txt
 . $ANSWER_FILE
 
 function finish-install {
-yes |  yaourt -S --noconfirm $(cat $PACKAGE_LIST_AUR)
+    FAILED_PKGS=""
+    FAILED_PKGS_OPT=""
+    for i in $(cat $PACKAGE_LIST_AUR); do
+	yes |  yaourt -S --noconfirm $i 1>/dev/null 2> setup-complete.log
+	if [ $? -ne 0 ]; then
+	    FAILED_PKGS="$FAILED_PKGS $i"
+	fi
+    done
     if [ $INSTALL_OPTIONAL_PACKAGES -eq 1 ]; then
-	yaourt -S --noconfirm $(cat $PACKAGE_LIST_OPTIONAL)
+	for i in $(cat $PACKAGE_LIST_OPTIONAL); do
+	    yes |  yaourt -S --noconfirm $i 1>/dev/null 2>> setup-complete.log
+	    if [ $? -ne 0 ]; then
+		FAILED_PKGS_OPT="$FAILED_PKGS_OPT $i"
+	    fi
+	done
     fi
+    echo "Following Packages failed from aur: $FAILED_PKGS"
+    echo "Following optional Packages failed from aur: $FAILED_PKGS_OPT"
+    echo "please review setup-complete.log for more details"
 }
 
 function setup-complete {
-    rm $HOME/.zlogin
     rm $HOME/setup-complete.sh
+    sed -i '/$HOME\/setup-complete.sh/d' .zlogin
 }
 
 finish-install
-#setup-complete
+setup-complete
