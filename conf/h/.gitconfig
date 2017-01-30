@@ -1,0 +1,26 @@
+[user]
+	email = eugen.dahm@gmail.com
+	name = Eugen Dahm
+[color]
+	diff = auto
+	status = auto
+	branch = auto
+[alias]
+	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+[core]
+	editor = emacs -nw
+	excludesfile = /home/itachi/.gitignore
+[merge]
+	tool = ediff
+[tar "tar.xz"]
+	command = xz -T0 -c
+[push]
+	default = current
+[pull]
+	default = current
+[difftool.latex]
+	cmd = latexdiff "$LOCAL" "$REMOTE"
+[difftool]
+	prompt = false
+[alias]
+	ldiff = difftool -t latex
