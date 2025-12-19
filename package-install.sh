@@ -46,7 +46,7 @@ curl -L $ARCH_SETUP_TAR_URL -o $ARCH_SETUP_TAR
 mkdir -p $SCRIPT_DIR_ROOT
 tar -xzf $ARCH_SETUP_TAR -C $SCRIPT_DIR_ROOT
 # copy pacman.conf
-cp $INSTALLER_DIR/conf/pacman.conf /etc/pacman.conf
+# cp $INSTALLER_DIR/conf/pacman.conf /etc/pacman.conf
 
 #install packages with pacstrap
 cat $INSTALLER_DIR/$PACKAGE_LIST_INSTALL | xargs pacstrap $ROOT
