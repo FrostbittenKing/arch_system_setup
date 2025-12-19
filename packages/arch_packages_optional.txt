@@ -9,6 +9,5 @@ jabref
 jd-gui
 latex-make
 sslsniff
-tcptraceroute
 texlive-most
 usbasp-udev

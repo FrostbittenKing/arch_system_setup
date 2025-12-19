@@ -42,8 +42,8 @@ fi
 . $ANSWER_FILE
 
 # fetch install package
-curl $ARCH_SETUP_TAR_URL -o $ARCH_SETUP_TAR
-mkdir $SCRIPT_DIR_ROOT
+curl -L $ARCH_SETUP_TAR_URL -o $ARCH_SETUP_TAR
+mkdir -p $SCRIPT_DIR_ROOT
 tar -xzf $ARCH_SETUP_TAR -C $SCRIPT_DIR_ROOT
 # copy pacman.conf
 cp $INSTALLER_DIR/conf/pacman.conf /etc/pacman.conf
