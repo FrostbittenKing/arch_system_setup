@@ -52,6 +52,7 @@ p7zip
 pavucontrol
 qemu
 r
+rxvt-unicode
 rsync
 samba
 screen

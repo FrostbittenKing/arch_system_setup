@@ -116,6 +116,7 @@ EOF
 copy_my_configs
 
 # enable services
+ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
 systemctl enable $SERVICE_LIST
 
 #enable display manager

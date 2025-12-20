@@ -14,7 +14,7 @@ ARCH_SETUP_TAR_URL=https://github.com/FrostbittenKing/arch_system_setup/archive/
 ROOT=/mnt
 SYSTEM_SETUP_DIR=$ROOT/arch_system_setup-master/setup-system
 # list of services to enable
-SERVICE_LIST="NetworkManager.service"
+SERVICE_LIST="NetworkManager.service systemd-resolved.service"
 # change to your favorite Display manager
 DM="lxdm.service"
 TIMEZONE=Europe/Vienna
