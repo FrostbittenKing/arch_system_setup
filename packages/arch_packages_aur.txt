@@ -8,8 +8,6 @@ lxdm-themes
 oh-my-zsh-git
 pacutils
 package-query
-phonon-qt4-gstreamer
-phonon-qt5-gstreamer
 tcptraceroute
 urxvt-font-size-git
 urxvt-fullscreen

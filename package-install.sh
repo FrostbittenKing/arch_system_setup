@@ -24,6 +24,7 @@ USERNAME=itachi
 DEFAULT_SHELL=/usr/bin/zsh
 EXTERN_CONFIGS_GIT=(https://github.com/FrostbittenKing/awesome-wm-config.git)
 YAY_AUR_PKGBUILD_URL='https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=yay'
+# todo maybe option to use grub or refind
 BOOTLOADERS=(grub refind)
 DEFAULT_BOOTLOADER=grub
 INSTALL_OPTIONAL_PACKAGES=1
@@ -73,11 +74,8 @@ get_and_extract_install_archive
 #install packages with pacstrap
 pacstrap_step
 
-if [ ! -f $ROOT/etc/fstab ]; then
-    genfstab -U $ROOT >> $ROOT/etc/fstab
-    echo "fstab written..."
-fi
-
+genfstab -U $ROOT >> $ROOT/etc/fstab
+echo "fstab written..."
 # copy necessary files to target mount point
 copy_cfg_to_target
 

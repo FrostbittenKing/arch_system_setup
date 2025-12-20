@@ -36,6 +36,7 @@ gptfdisk
 hdparm
 htop
 hwinfo
+intel-ucode
 jdk8-openjdk
 lvm2
 lxappearance
@@ -51,6 +52,7 @@ openssh
 os-prober
 p7zip
 pavucontrol
+podman
 qemu
 r
 refind
