@@ -23,6 +23,7 @@ SYS_LANGUAGE='LANG=en_US.UTF-8'
 USERNAME=itachi
 DEFAULT_SHELL=/usr/bin/zsh
 EXTERN_CONFIGS_GIT=(https://github.com/FrostbittenKing/awesome-wm-config.git)
+YAY_AUR_PKGBUILD_URL='https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=yay'
 INSTALL_OPTIONAL_PACKAGES=1
 EOF
     echo "removing install status file"

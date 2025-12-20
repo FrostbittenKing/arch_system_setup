@@ -9,15 +9,24 @@ ANSWER_FILE=/arch_answers.txt
 function finish-install {
     FAILED_PKGS=""
     FAILED_PKGS_OPT=""
+
+    # check if yay is installed, and install it if not found
+    pacman -Qi yay 2&>1 > /dev/null
+    if [ $? -ne 0 ]; then
+	mkdir -p /tmp/yay-build
+	curl -L $YAY_AUR_PKGBUILD_URL -o /tmp/yay-build/PKGBUILD
+	yes | makepkg -Cscfi -D /tmp/yay-build
+    fi
+    
     for i in $(cat $PACKAGE_LIST_AUR); do
-	yes |  yaourt -S --noconfirm $i 1>/dev/null 2> setup-complete.log
+	yes |  yay -S --batchinstall $i 1>/dev/null 2> setup-complete.log
 	if [ $? -ne 0 ]; then
 	    FAILED_PKGS="$FAILED_PKGS $i"
 	fi
     done
     if [ $INSTALL_OPTIONAL_PACKAGES -eq 1 ]; then
 	for i in $(cat $PACKAGE_LIST_OPTIONAL); do
-	    yes |  yaourt -S --noconfirm $i 1>/dev/null 2>> setup-complete.log
+	    yes |  yay -S --batchinstall $i 1>/dev/null 2>> setup-complete.log
 	    if [ $? -ne 0 ]; then
 		FAILED_PKGS_OPT="$FAILED_PKGS_OPT $i"
 	    fi
