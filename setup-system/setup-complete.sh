@@ -19,14 +19,14 @@ function finish-install {
     fi
     
     for i in $(cat $PACKAGE_LIST_AUR); do
-	yes |  yay -S --batchinstall --noredownload --noconfirm --needed $i 1>/dev/null 2> setup-complete.log
+	yay -S --batchinstall --noredownload --noconfirm --needed $i 1>/dev/null 2>> setup-complete.log
 	if [ $? -ne 0 ]; then
 	    FAILED_PKGS="$FAILED_PKGS $i"
 	fi
     done
     if [ $INSTALL_OPTIONAL_PACKAGES -eq 1 ]; then
 	for i in $(cat $PACKAGE_LIST_OPTIONAL); do
-	    yes |  yay -S --batchinstall $i 1>/dev/null 2>> setup-complete.log
+	    yay -S --batchinstall --noredownload --noconfirm --needed $i 1>/dev/null 2>> setup-complete.log
 	    if [ $? -ne 0 ]; then
 		FAILED_PKGS_OPT="$FAILED_PKGS_OPT $i"
 	    fi
