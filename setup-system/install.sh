@@ -10,6 +10,9 @@ CONF_DIR=$INSTALLER_DIR/conf
 # copy user configs
 function copy_system_configs {
     cp -a $CONF_DIR/etc /
+    sed -i 's/#\ session=.*$/session=\/usr\/bin\/awesome'      /etc/lxdm/lxdm.conf
+    sed -i 's/gtk_theme=.*$/gtk_theme=Clearlooks/'             /etc/lxdm/lxdm.conf
+    sed -i 's/theme=.*$/theme=Arch-Dark/'                      /etc/lxdm/lxdm.conf
     # todo fix config
     # cp -a $CONF_DIR/pacman.conf /etc
 }
@@ -39,6 +42,10 @@ function configure_locale_and_timezone
 # configure init ramfs
 function configure_initramfs
 {
+    sed -i 's/HOOKS=.*$/HOOKS=(base udev fsck kms autodetect block encrypt lvm2 filesystems keyboard shutdown)/' /etc/mkinitcpio.conf
+    sed -i 's/#COMPRESSION_OPTIONS=.*$/COMPRESSION_OPTIONS=(-T0 -c -z)/'                                         /etc/mkinitcpio.conf
+    sed -i 's/#default_uki=.*$/default_uki="\/boot\/archlinux-linux.efi"'                                        /etc/mkinitcpio.d/linux.preset
+    sed -i 's/#default_options=.*$/default_options="--splash=\/usr\/share\/systemd\/bootctl\/splash-arch.bmp"/'  /etc/mkinitcpio.d/linux.preset
     mkinitcpio -p linux
     echo "INITRAMFS_INITIALIZED=true" >> $INSTALL_STATUS
 }
@@ -125,6 +132,21 @@ systemctl enable $DM
 # TODO configs
 # maybe fetch from its own repository, idk
 # copy_git_configs
+CRYPT_DEVICE_UUID_ARG=$(blkid | grep crypto_LUKS |  cut -d ' ' -f 2 | sed 's/"//g')
+ROOT_DEV_UUID_ARG=$(blkid | grep Linux filesystem | cut -d ' ' -f 2 | sed 's/"//g')
+# configure refind
+# todo for encrypted disk
+# cryptdevice=${CRYPT_DEVICE_UUID_ARG}:crypt_disk
+# "Boot with standard options"  "root=/dev/arch_system_vg/arch_root_lv rootfstype=ext4 add_efi_memmap acpi_os_name=""Windows 2015"" acpi_osi= mem_sleep_default=s2idle i915.enable_fbc=1 initrd=\EFI\arch\intel-ucode.img initrd=\EFI\arch\initramfs-%v.img"
+# "Boot to single-user mode"    "root=/dev/arch_system_vg/arch_root_lv rootfstype=ext4 add_efi_memmap acpi_os_name=""Windows 2015"" acpi_osi= mem_sleep_default=s2idle i915.enable_fbc=1 single"
+# "Boot with minimal options"   "root=/dev/arch_system_vg/arch_root_lv rootfstype=ext4 ro"
+cat <<EOF > /boot/refind_linux.conf
+"Boot with standard options"  "root=$ROOT_DEV_UUID_ARG rootfstype=ext4 add_efi_memmap acpi_os_name=""Windows 2015"" acpi_osi= mem_sleep_default=s2idle i915.enable_fbc=1 initrd=\EFI\arch\intel-ucode.img initrd=\EFI\arch\initramfs-%v.img"
+EOF
+# configure for uki image
+echo "cryptdevice=${CRYPT_DEVICE_UUID_ARG}:crypt_disk root=/dev/arch_system_vg/arch_root_lv rootfstype=ext4 add_efi_memmap acpi_os_name=\"Windows 2015\" acpi_osi=  mem_sleep_default=s2idle i915.enable_fbc=1" > /etc/kernel/cmdline
+refind_install
+
 
 echo "Please install a bootloader of your choice, or your system won't boot on the next reboot"
 echo "see https://wiki.archlinux.org/index.php/Category:Boot_loaders for more info"

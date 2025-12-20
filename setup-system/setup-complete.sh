@@ -19,7 +19,7 @@ function finish-install {
     fi
     
     for i in $(cat $PACKAGE_LIST_AUR); do
-	yes |  yay -S --batchinstall $i 1>/dev/null 2> setup-complete.log
+	yes |  yay -S --batchinstall --noredownload --noconfirm --needed $i 1>/dev/null 2> setup-complete.log
 	if [ $? -ne 0 ]; then
 	    FAILED_PKGS="$FAILED_PKGS $i"
 	fi

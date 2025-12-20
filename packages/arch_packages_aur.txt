@@ -4,6 +4,7 @@ gnu-netcat
 google-chrome
 libpng14
 log4j
+lxdm-themes
 oh-my-zsh-git
 pacutils
 package-query
