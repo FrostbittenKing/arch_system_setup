@@ -1,12 +1,13 @@
 #!/bin/bash
 
 INSTALLER_DIR=/arch_system_setup-master
+PACKAGE_LIST_DIR=packages
+PACKAGE_LIST_INSTALL=$PACKAGE_LIST_DIR/arch_packages_install.txt
 ANSWER_FILE=/arch_answers.txt
 INSTALL_STATUS=/installation_status.txt
 CONF_DIR=$INSTALLER_DIR/conf
 # source answer file
 . $ANSWER_FILE
-
 # copy user configs
 function copy_system_configs {
     cp -a $CONF_DIR/etc /
@@ -65,6 +66,14 @@ function configure_users
     read -p "uncomment wheel group in /etc/sudoers"; visudo
     echo "USERS_CONFIGURED=true" >> $INSTALL_STATUS
 }
+
+# install remaining main packages
+function install_mandatory_packages
+{
+    cat $INSTALLER_DIR/$PACKAGE_LIST_INSTALL | xargs pacman -Syu --noconfirm --needed
+}
+
+install_mandatory_packages
 # configure timezone
 configure_locale_and_timezone
 
