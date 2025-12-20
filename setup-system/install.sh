@@ -110,7 +110,7 @@ function copy_my_configs
     echo '$HOME/setup-complete.sh' >> .zlogin
     cp $INSTALLER_DIR/setup-system/setup-complete.sh .
     chmod +x setup-complete.sh
-    EOF
+EOF
     echo "MY_CONFIGS_COPIED=true" >> $INSTALL_STATUS
 }
 copy_my_configs
