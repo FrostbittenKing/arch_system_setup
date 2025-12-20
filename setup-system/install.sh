@@ -145,7 +145,7 @@ cat <<EOF > /boot/refind_linux.conf
 EOF
 # configure for uki image
 echo "cryptdevice=${CRYPT_DEVICE_UUID_ARG}:crypt_disk root=/dev/arch_system_vg/arch_root_lv rootfstype=ext4 add_efi_memmap acpi_os_name=\"Windows 2015\" acpi_osi=  mem_sleep_default=s2idle i915.enable_fbc=1" > /etc/kernel/cmdline
-refind_install
+refind-install
 
 
 echo "Please install a bootloader of your choice, or your system won't boot on the next reboot"
