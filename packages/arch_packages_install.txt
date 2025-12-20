@@ -36,6 +36,7 @@ hdparm
 htop
 hwinfo
 jdk8-openjdk
+lvm2
 lxappearance
 lxdm
 maxima
@@ -61,12 +62,10 @@ sshfs
 strace
 system-config-printer
 terminus-font
-texlive-most
+texlive-basic
 thunderbird
 traceroute
-tcptraceroute
 ttf-bitstream-vera
-ttf-cheapskate
 ttf-dejavu
 ttf-droid
 ttf-freefont
@@ -76,7 +75,6 @@ ttf-inconsolata
 ttf-junicode
 ttf-liberation
 ttf-linux-libertine
-ttf-ubraille
 ttf-ubuntu-font-family
 vicious
 vim
@@ -85,5 +83,4 @@ wget
 xorg
 xorg-fonts
 xorg-xrandr
-yaourt
 zsh

@@ -24,6 +24,7 @@ prelink
 rxvt-unicode-patched
 skype
 soot
+tcptraceroute
 urxvt-font-size-git
 urxvt-fullscreen
 urxvt-vtwheel
