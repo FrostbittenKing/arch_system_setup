@@ -73,24 +73,6 @@ function install_mandatory_packages
     cat $INSTALLER_DIR/$PACKAGE_LIST_INSTALL | xargs pacman -Syu --noconfirm --needed
 }
 
-install_mandatory_packages
-# configure timezone
-configure_locale_and_timezone
-
-# create initramfs
-configure_initramfs
-
-# set default font to ttf-droid
-# ln -s /etc/fonts/conf.avail/60-ttf-droid-sans-mono-fontconfig.conf /etc/fonts/conf.d/
-# ln -s /etc/fonts/conf.avail/65-ttf-droid-kufi-fontconfig.conf /etc/fonts/conf.d/
-# ln -s /etc/fonts/conf.avail/65-ttf-droid-sans-fontconfig.conf /etc/fonts/conf.d/
-# ln -s /etc/fonts/conf.avail/65-ttf-droid-serif-fontconfig.conf /etc/fonts/conf.d/
-
-configure_users
-
-copy_system_configs
-
-export INSTALLER_DIR ANSWER_FILE CONF_DIR
 
 function copy_my_configs
 {
@@ -129,6 +111,25 @@ function copy_my_configs
 EOF
     echo "MY_CONFIGS_COPIED=true" >> $INSTALL_STATUS
 }
+
+# configure timezone
+configure_locale_and_timezone
+
+install_mandatory_packages
+
+# create initramfs
+configure_initramfs
+
+# set default font to ttf-droid
+# ln -s /etc/fonts/conf.avail/60-ttf-droid-sans-mono-fontconfig.conf /etc/fonts/conf.d/
+# ln -s /etc/fonts/conf.avail/65-ttf-droid-kufi-fontconfig.conf /etc/fonts/conf.d/
+# ln -s /etc/fonts/conf.avail/65-ttf-droid-sans-fontconfig.conf /etc/fonts/conf.d/
+# ln -s /etc/fonts/conf.avail/65-ttf-droid-serif-fontconfig.conf /etc/fonts/conf.d/
+
+configure_users
+
+copy_system_configs
+
 copy_my_configs
 
 # enable services
@@ -149,6 +150,7 @@ ROOT_DEV_UUID_ARG=$(blkid | grep "Linux filesystem" | cut -d ' ' -f 2 | sed 's/"
 # "Boot with standard options"  "root=/dev/arch_system_vg/arch_root_lv rootfstype=ext4 add_efi_memmap acpi_os_name=""Windows 2015"" acpi_osi= mem_sleep_default=s2idle i915.enable_fbc=1 initrd=\EFI\arch\intel-ucode.img initrd=\EFI\arch\initramfs-%v.img"
 # "Boot to single-user mode"    "root=/dev/arch_system_vg/arch_root_lv rootfstype=ext4 add_efi_memmap acpi_os_name=""Windows 2015"" acpi_osi= mem_sleep_default=s2idle i915.enable_fbc=1 single"
 # "Boot with minimal options"   "root=/dev/arch_system_vg/arch_root_lv rootfstype=ext4 ro"
+refind-install
 cat <<EOF > /boot/refind_linux.conf
 "Boot with standard options"  "root=$ROOT_DEV_UUID_ARG rootfstype=ext4 add_efi_memmap acpi_os_name=""Windows 2015"" acpi_osi= mem_sleep_default=s2idle i915.enable_fbc=1 initrd=\EFI\arch\intel-ucode.img initrd=\EFI\arch\initramfs-%v.img"
 EOF
@@ -160,7 +162,6 @@ sed -i 's/#extra_kernel_version_strings.*$/extra_kernel_version_strings linux/' 
 
 # configure for uki image
 echo "cryptdevice=${CRYPT_DEVICE_UUID_ARG}:crypt_disk root=/dev/arch_system_vg/arch_root_lv rootfstype=ext4 add_efi_memmap acpi_os_name=\"Windows 2015\" acpi_osi=  mem_sleep_default=s2idle i915.enable_fbc=1" > /etc/kernel/cmdline
-refind-install
 
 
 echo "Please install a bootloader of your choice, or your system won't boot on the next reboot"

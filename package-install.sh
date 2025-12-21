@@ -54,7 +54,7 @@ function get_and_extract_install_archive {
 }
 
 function pacstrap_step {
-    pacstrap $ROOT base linux linux-firmware
+    pacstrap $ROOT base
     echo "PACSTRAPPED=true" >> $INSTALL_STATUS
 }
 # test for initialized answer file
