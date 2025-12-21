@@ -153,6 +153,9 @@ cat <<EOF > /boot/refind_linux.conf
 "Boot with standard options"  "root=$ROOT_DEV_UUID_ARG rootfstype=ext4 add_efi_memmap acpi_os_name=""Windows 2015"" acpi_osi= mem_sleep_default=s2idle i915.enable_fbc=1 initrd=\EFI\arch\intel-ucode.img initrd=\EFI\arch\initramfs-%v.img"
 EOF
 # configure extra_kernel_version_strings
+if [ ! -f /efi/EFI/refind/refind.conf ]; then
+    echo "Error refind.conf not found. Booting probably will not work"
+fi
 sed -i 's/#extra_kernel_version_strings.*$/extra_kernel_version_strings linux/' /efi/EFI/refind/refind.conf
 
 # configure for uki image
