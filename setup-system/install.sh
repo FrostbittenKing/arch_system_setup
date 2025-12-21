@@ -111,6 +111,7 @@ function copy_my_configs
 EOF
     echo "MY_CONFIGS_COPIED=true" >> $INSTALL_STATUS
 }
+export INSTALLER_DIR ANSWER_FILE CONF_DIR
 
 # configure timezone
 configure_locale_and_timezone
