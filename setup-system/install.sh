@@ -116,7 +116,7 @@ function install_bootloader
 {
     CRYPT_DEVICE_UUID_ARG="UUID="$(lsblk  -f -o FSTYPE,UUID | grep 'crypto_LUKS' | tr -s "[:space:]" | cut -f 2 -d ' ')
     EFI_PARTITION_MOUNT_POINT=$(findmnt --fstab -n -o TARGET,PARTLABEL | grep "EFI system partition" | cut -f 1 -d ' ')
-    ROOT_DEV_UUID_ARG=$(findmnt --fstab -n -o TARGET,SOURCE | grep "/ " | tr -s "[:space:]" | cut -f 2 -d ' ')
+    ROOT_DEV_UUID_ARG="UUID="$(findmnt --fstab -n -o TARGET,UUID | grep "/ " | tr -s "[:space:]" | cut -f 2 -d ' ')
     # configure refind
     # todo for encrypted disk
     # cryptdevice=${CRYPT_DEVICE_UUID_ARG}:crypt_disk
@@ -167,7 +167,7 @@ systemctl start $SERVICE_LIST
 # maybe fetch from its own repository, idk
 # copy_git_configs
 
-install_boot_loader
+install_bootloader
 # configure for uki image
 echo "cryptdevice=${CRYPT_DEVICE_UUID_ARG}:crypt_disk root=/dev/arch_system_vg/arch_root_lv rootfstype=ext4 \
 add_efi_memmap acpi_os_name=\"Windows 2015\" acpi_osi=  mem_sleep_default=s2idle i915.enable_fbc=1" > /etc/kernel/cmdline
