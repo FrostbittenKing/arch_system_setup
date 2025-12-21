@@ -111,6 +111,36 @@ function copy_my_configs
 EOF
     echo "MY_CONFIGS_COPIED=true" >> $INSTALL_STATUS
 }
+
+function install_bootloader
+{
+    CRYPT_DEVICE_UUID_ARG="UUID="$(lsblk  -f -o FSTYPE,UUID | grep 'crypto_LUKS' | tr -s "[:space:]" | cut -f 2 -d ' ')
+    EFI_PARTITION_MOUNT_POINT=$(findmnt --fstab -n -o TARGET,PARTLABEL | grep "EFI system partition" | cut -f 1 -d ' ')
+    ROOT_DEV_UUID_ARG=$(findmnt --fstab -n -o TARGET,SOURCE | grep "/ " | tr -s "[:space:]" | cut -f 2 -d ' ')
+    # configure refind
+    # todo for encrypted disk
+    # cryptdevice=${CRYPT_DEVICE_UUID_ARG}:crypt_disk
+    # "Boot with standard options"  "root=/dev/arch_system_vg/arch_root_lv rootfstype=ext4 add_efi_memmap acpi_os_name=""Windows 2015"" acpi_osi= mem_sleep_default=s2idle i915.enable_fbc=1 initrd=\EFI\arch\intel-ucode.img initrd=\EFI\arch\initramfs-%v.img"
+    # "Boot to single-user mode"    "root=/dev/arch_system_vg/arch_root_lv rootfstype=ext4 add_efi_memmap acpi_os_name=""Windows 2015"" acpi_osi= mem_sleep_default=s2idle i915.enable_fbc=1 single"
+    # "Boot with minimal options"   "root=/dev/arch_system_vg/arch_root_lv rootfstype=ext4 ro"
+    refind-install
+    cat <<EOF > /boot/refind_linux.conf
+    "Boot with standard options"  "root=$ROOT_DEV_UUID_ARG rootfstype=ext4 add_efi_memmap acpi_os_name=""Windows 2015"" acpi_osi= mem_sleep_default=s2idle i915.enable_fbc=1 initrd=\EFI\arch\intel-ucode.img initrd=\EFI\arch\initramfs-%v.img"
+EOF
+    # check if efi partition exists, and afterwards if refind.conf exists
+    if [ -z $EFI_PARTITION_MOUNT_POINT ]; then
+	echo "Error, no efi partition mount point found, cannot install efi boot loader"
+    else
+	local refind_conf_location=$(find $EFI_PARTITION_MOUNT_POINT  -type f -name refind.conf)
+	if [ -z $refind_conf_location ]; then
+	    echo "Error no refind.conf found, please install refind with refind-install"
+	else
+	    # configure extra_kernel_version_strings
+	    sed -i 's/#extra_kernel_version_strings.*$/extra_kernel_version_strings linux/' $refind_conf_location	
+	fi
+    fi
+}
+
 export INSTALLER_DIR ANSWER_FILE CONF_DIR
 
 # configure timezone
@@ -121,12 +151,6 @@ install_mandatory_packages
 # create initramfs
 configure_initramfs
 
-# set default font to ttf-droid
-# ln -s /etc/fonts/conf.avail/60-ttf-droid-sans-mono-fontconfig.conf /etc/fonts/conf.d/
-# ln -s /etc/fonts/conf.avail/65-ttf-droid-kufi-fontconfig.conf /etc/fonts/conf.d/
-# ln -s /etc/fonts/conf.avail/65-ttf-droid-sans-fontconfig.conf /etc/fonts/conf.d/
-# ln -s /etc/fonts/conf.avail/65-ttf-droid-serif-fontconfig.conf /etc/fonts/conf.d/
-
 configure_users
 
 copy_system_configs
@@ -135,35 +159,19 @@ copy_my_configs
 
 # enable services
 ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
-systemctl enable $SERVICE_LIST
-
-#enable display manager
-systemctl enable $DM
+# enable services and display manager
+systemctl enable $SERVICE_LIST $DM
+systemctl start $SERVICE_LIST
 
 # TODO configs
 # maybe fetch from its own repository, idk
 # copy_git_configs
-CRYPT_DEVICE_UUID_ARG=$(blkid | grep crypto_LUKS |  cut -d ' ' -f 2 | sed 's/"//g')
-ROOT_DEV_UUID_ARG=$(blkid | grep "Linux filesystem" | cut -d ' ' -f 2 | sed 's/"//g')
-# configure refind
-# todo for encrypted disk
-# cryptdevice=${CRYPT_DEVICE_UUID_ARG}:crypt_disk
-# "Boot with standard options"  "root=/dev/arch_system_vg/arch_root_lv rootfstype=ext4 add_efi_memmap acpi_os_name=""Windows 2015"" acpi_osi= mem_sleep_default=s2idle i915.enable_fbc=1 initrd=\EFI\arch\intel-ucode.img initrd=\EFI\arch\initramfs-%v.img"
-# "Boot to single-user mode"    "root=/dev/arch_system_vg/arch_root_lv rootfstype=ext4 add_efi_memmap acpi_os_name=""Windows 2015"" acpi_osi= mem_sleep_default=s2idle i915.enable_fbc=1 single"
-# "Boot with minimal options"   "root=/dev/arch_system_vg/arch_root_lv rootfstype=ext4 ro"
-refind-install
-cat <<EOF > /boot/refind_linux.conf
-"Boot with standard options"  "root=$ROOT_DEV_UUID_ARG rootfstype=ext4 add_efi_memmap acpi_os_name=""Windows 2015"" acpi_osi= mem_sleep_default=s2idle i915.enable_fbc=1 initrd=\EFI\arch\intel-ucode.img initrd=\EFI\arch\initramfs-%v.img"
-EOF
-# configure extra_kernel_version_strings
-if [ ! -f /efi/EFI/refind/refind.conf ]; then
-    echo "Error refind.conf not found. Booting probably will not work"
-fi
-sed -i 's/#extra_kernel_version_strings.*$/extra_kernel_version_strings linux/' /efi/EFI/refind/refind.conf
 
+install_boot_loader
 # configure for uki image
-echo "cryptdevice=${CRYPT_DEVICE_UUID_ARG}:crypt_disk root=/dev/arch_system_vg/arch_root_lv rootfstype=ext4 add_efi_memmap acpi_os_name=\"Windows 2015\" acpi_osi=  mem_sleep_default=s2idle i915.enable_fbc=1" > /etc/kernel/cmdline
+echo "cryptdevice=${CRYPT_DEVICE_UUID_ARG}:crypt_disk root=/dev/arch_system_vg/arch_root_lv rootfstype=ext4 \
+add_efi_memmap acpi_os_name=\"Windows 2015\" acpi_osi=  mem_sleep_default=s2idle i915.enable_fbc=1" > /etc/kernel/cmdline
 
 
-echo "Please install a bootloader of your choice, or your system won't boot on the next reboot"
+echo "Checkout an alternative bootloader if you don't like refind..."
 echo "see https://wiki.archlinux.org/index.php/Category:Boot_loaders for more info"
