@@ -1,7 +1,5 @@
+#!/bin/bash
 grep -q BOOTLOADER_INSTALLED $INSTALL_STATUS && return
-CRYPT_DEVICE_UUID_ARG="UUID="$(lsblk  -f -o FSTYPE,UUID | grep 'crypto_LUKS' | tr -s "[:space:]" | cut -f 2 -d ' ')
-EFI_PARTITION_MOUNT_POINT=$(findmnt --fstab -n -o TARGET,PARTLABEL | grep "EFI system partition" | cut -f 1 -d ' ')
-ROOT_DEV_UUID_ARG="UUID="$(findmnt --fstab -n -o TARGET,UUID | grep "/ " | tr -s "[:space:]" | cut -f 2 -d ' ')
 # configure refind
 # todo for encrypted disk
 # cryptdevice=${CRYPT_DEVICE_UUID_ARG}:crypt_disk

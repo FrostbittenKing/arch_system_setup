@@ -125,14 +125,24 @@ EOF
 
 function install_bootloader
 {
+    CRYPT_DEVICE_UUID_ARG="UUID="$(lsblk  -f -o FSTYPE,UUID | grep 'crypto_LUKS' | tr -s "[:space:]" | cut -f 2 -d ' ')
+    EFI_PARTITION_MOUNT_POINT=$(findmnt --fstab -n -o TARGET,PARTLABEL | grep "EFI system partition" | cut -f 1 -d ' ')
+    ROOT_DEV_UUID_ARG="UUID="$(findmnt --fstab -n -o TARGET,UUID | grep "/ " | tr -s "[:space:]" | cut -f 2 -d ' ')
+    DEFAULT_KERNEL_ARGS="root=$ROOT_DEV_UUID_ARG rootfstype=ext4 add_efi_memmap acpi_os_name=""Windows 2015"" acpi_osi= mem_sleep_default=s2idle \
+i915.enable_fbc=1" > /etc/kernel/cmdline
+    export CRYPT_DEVICE_UUID_ARG EFI_PARTITION_MOUNT_POINT ROOT_DEV_UUID_ARG DEFAULT_KERNEL_ARGS INSTALL_STATUS
+    # default bootloader efistub
+    $INSTALLER_DIR/setup-system/install-efistub.sh
+    # additional loaders
     for loader in "${BOOTLOADERS}"
     do
 	case $loader in
 	    refind)
-		INSTALL_STATUS=$INSTALL_STATUS bash $INSTALLER_DIR/setup-system/install-refind.sh
+		bash $INSTALLER_DIR/setup-system/install-refind.sh
 		;;
 	esac
     done
+    unset CRYPT_DEVICE_UUID_ARG EFI_PARTITION_MOUNT_POINT ROOT_DEV_UUID_ARG
 }
 export INSTALLER_DIR ANSWER_FILE CONF_DIR PACKAGE_LIST_AUR PACKAGE_LIST_OPTIONAL
 
