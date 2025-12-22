@@ -169,7 +169,6 @@ copy_my_configs
 systemctl enable $SERVICE_LIST $DM
 systemctl start $SERVICE_LIST
 rm -f /etc/resolv.conf
-ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
 
 # TODO configs
 # maybe fetch from its own repository, idk

@@ -37,7 +37,7 @@ hdparm
 htop
 hwinfo
 intel-ucode
-jdk8-openjdk
+jdk-openjdk
 lvm2
 lxappearance
 lxdm

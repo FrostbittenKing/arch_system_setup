@@ -37,7 +37,7 @@ EOF
 }
 
 function copy_cfg_to_target {
-    grep -q CFG_COPIED_TO_TARGET && return
+    grep -q CFG_COPIED_TO_TARGET $INSTALL_STATUS && return
     cp -r $INSTALLER_DIR $ROOT
     cp $ANSWER_FILE $ROOT
     echo "CFG_COPIED_TO_TARGET=true" >> $INSTALL_STATUS
@@ -78,9 +78,12 @@ get_and_extract_install_archive
 #install packages with pacstrap
 pacstrap_step
 
-genfstab -U $ROOT >> $ROOT/etc/fstab
+genfstab -U $ROOT > $ROOT/etc/fstab
 echo "fstab written..."
 # copy necessary files to target mount point
 copy_cfg_to_target
 
 arch-chroot $ROOT /bin/bash "$SYSTEM_SETUP_DIR/install.sh"
+
+# hack, symlinking to stub-resolv.conf only works reliably outside the chroot
+ln -sf /mnt/etc/fstab /run/systemd/resolve/stub-resolv.conf
