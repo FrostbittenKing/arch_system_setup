@@ -25,8 +25,7 @@ DEFAULT_SHELL=/usr/bin/zsh
 EXTERN_CONFIGS_GIT=(https://github.com/FrostbittenKing/awesome-wm-config.git)
 YAY_AUR_PKGBUILD_URL='https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=yay'
 # todo maybe option to use grub or refind
-BOOTLOADERS=(grub refind)
-DEFAULT_BOOTLOADER=refind
+BOOTLOADERS=(refind)
 INSTALL_OPTIONAL_PACKAGES=1
 CLEANUP_AFTER_INSTALL=0
 EOF
