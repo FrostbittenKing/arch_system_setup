@@ -4,7 +4,7 @@ INSTALLER_DIR=/arch_system_setup-master
 PACKAGE_LIST_DIR=packages
 PACKAGE_LIST_INSTALL=$PACKAGE_LIST_DIR/arch_packages_install.txt
 PACKAGE_LIST_AUR=$PACKAGE_LIST_DIR/arch_packages_aur.txt
-PACKAGE_LIST_OPTIONAL=$PACKAGE_IST_DIR/arch_packages_optional.txt
+PACKAGE_LIST_OPTIONAL=$PACKAGE_LIST_DIR/arch_packages_optional.txt
 ANSWER_FILE=/arch_answers.txt
 INSTALL_STATUS=/installation_status.txt
 CONF_DIR=$INSTALLER_DIR/conf
@@ -154,7 +154,7 @@ EOF
     echo "BOOTLOADER_INSTALLED=true" >> $INSTALL_STATUS
 }
 
-export INSTALLER_DIR ANSWER_FILE CONF_DIR
+export INSTALLER_DIR ANSWER_FILE CONF_DIR PACKAGE_LIST_AUR PACKAGE_LIST_OPTIONAL
 
 # configure timezone
 configure_locale_and_timezone
