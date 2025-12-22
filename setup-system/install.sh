@@ -129,7 +129,7 @@ function install_bootloader
     do
 	case $loader in
 	    refind)
-		INSTALL_STATUS=$INSTALL_STATUS bash ./install-refind.sh
+		INSTALL_STATUS=$INSTALL_STATUS bash $INSTALLER_DIR/setup-system/install-refind.sh
 		;;
 	esac
     done

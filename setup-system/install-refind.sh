@@ -16,7 +16,7 @@ EOF
 if [ -z $EFI_PARTITION_MOUNT_POINT ]; then
     echo "Error, no efi partition mount point found, cannot install efi boot loader"
 else
-    local refind_conf_location=$(find $EFI_PARTITION_MOUNT_POINT  -type f -name refind.conf)
+    refind_conf_location=$(find $EFI_PARTITION_MOUNT_POINT  -type f -name refind.conf)
     if [ -z $refind_conf_location ]; then
 	echo "Error no refind.conf found, please install refind with refind-install"
     else
