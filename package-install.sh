@@ -86,4 +86,5 @@ copy_cfg_to_target
 arch-chroot $ROOT /bin/bash "$SYSTEM_SETUP_DIR/install.sh"
 
 # hack, symlinking to stub-resolv.conf only works reliably outside the chroot
-ln -sf /mnt/etc/fstab /run/systemd/resolve/stub-resolv.conf
+rm -f  /mnt/etc/resolv.conf
+ln -sf /mnt/etc/resolv.conf /run/systemd/resolve/stub-resolv.conf

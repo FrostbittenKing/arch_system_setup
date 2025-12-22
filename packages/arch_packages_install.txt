@@ -41,7 +41,6 @@ jdk-openjdk
 lvm2
 lxappearance
 lxdm
-maxima
 net-tools
 networkmanager
 network-manager-applet
@@ -54,7 +53,6 @@ p7zip
 pavucontrol
 podman
 qemu
-r
 refind
 rxvt-unicode
 rsync
@@ -84,6 +82,7 @@ ttf-ubuntu-font-family
 vicious
 vim
 volumeicon
+wireshark-qt
 wget
 xorg
 xorg-fonts

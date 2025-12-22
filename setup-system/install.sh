@@ -62,7 +62,7 @@ function configure_users
 
     # create user
     # echo "please enter a username for your account: "; read username
-    useradd -m -G disk,wheel,uucp,games,lock,kvm,video,power,wireshark,plugdev -s $DEFAULT_SHELL $USERNAME
+    useradd -m -G disk,wheel,uucp,games,lock,kvm,video,power,wireshark -s $DEFAULT_SHELL $USERNAME
     echo "get PASSWORD $USERNAME: "; passwd $USERNAME
     
     # enable sudo
@@ -167,8 +167,6 @@ copy_my_configs
 
 # enable services and display manager
 systemctl enable $SERVICE_LIST $DM
-systemctl start $SERVICE_LIST
-rm -f /etc/resolv.conf
 
 # TODO configs
 # maybe fetch from its own repository, idk
