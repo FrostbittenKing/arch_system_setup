@@ -3,6 +3,8 @@
 INSTALLER_DIR=/arch_system_setup-master
 PACKAGE_LIST_DIR=packages
 PACKAGE_LIST_INSTALL=$PACKAGE_LIST_DIR/arch_packages_install.txt
+PACKAGE_LIST_AUR=$PACKAGE_LIST_DIR/arch_packages_aur.txt
+PACKAGE_LIST_OPTIONAL=$PACKAGE_IST_DIR/arch_packages_optional.txt
 ANSWER_FILE=/arch_answers.txt
 INSTALL_STATUS=/installation_status.txt
 CONF_DIR=$INSTALLER_DIR/conf
@@ -113,6 +115,9 @@ function copy_my_configs
     # create .zlogin file for last installation steps
     echo '$HOME/setup-complete.sh' >> .zlogin
     cp $INSTALLER_DIR/setup-system/setup-complete.sh .
+    cp $INSTALLER_DIR/$PACKAGE_LIST_AUR .
+    cp $INSTALLER_DIR/$PACKAGE_LIST_OPTIONAL .
+    cp $ANSWER_FILE .
     chmod +x setup-complete.sh
 EOF
     echo "MY_CONFIGS_COPIED=true" >> $INSTALL_STATUS

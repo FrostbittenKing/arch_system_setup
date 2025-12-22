@@ -1,9 +1,7 @@
 #!/bin/bash
-INSTALLER_DIR=/arch_system_setup-master
-PACKAGE_LIST_DIR=$INSTALLER_DIR/packages
-PACKAGE_LIST_AUR=$PACKAGE_LIST_DIR/arch_packages_aur.txt
-PACKAGE_LIST_OPTIONAL=$PACKAGE_LIST_DIR/arch_packages_optional.txt
-ANSWER_FILE=/arch_answers.txt
+PACKAGE_LIST_AUR=$HOME/arch_packages_aur.txt
+PACKAGE_LIST_OPTIONAL=$HOME/arch_packages_optional.txt
+ANSWER_FILE=$HOME/arch_answers.txt
 . $ANSWER_FILE
 
 function finish-install {
@@ -39,6 +37,8 @@ function finish-install {
 
 function setup-complete {
     rm $HOME/setup-complete.sh
+    rm $PACKAGE_LIST_AUR
+    rm $PACKAGE_LIST_OPTIONAL
     sed -i '/$HOME\/setup-complete.sh/d' .zlogin
 }
 

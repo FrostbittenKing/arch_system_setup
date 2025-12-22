@@ -28,6 +28,7 @@ YAY_AUR_PKGBUILD_URL='https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=ya
 BOOTLOADERS=(grub refind)
 DEFAULT_BOOTLOADER=refind
 INSTALL_OPTIONAL_PACKAGES=1
+CLEANUP_AFTER_INSTALL=0
 EOF
     echo "removing install status file"
     cat <<EOF > $INSTALL_STATUS
@@ -88,3 +89,9 @@ arch-chroot $ROOT /bin/bash "$SYSTEM_SETUP_DIR/install.sh"
 # hack, symlinking to stub-resolv.conf only works reliably outside the chroot
 rm -f  /mnt/etc/resolv.conf
 ln -sf /run/systemd/resolve/stub-resolv.conf /mnt/etc/resolv.conf
+
+# cleanup
+
+[[ $CLEANUP_AFTER_INSTALL -eq 1 ]] && echo "cleaning up installation files... We will keep arch_answers.txt and installation_status.txt for reference..."\
+    && rm -rf $ROOT/arch_system_setup-master
+echo "you can now take a copy of arch-answers.txt, if you want to reuse it next time"
