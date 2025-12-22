@@ -1,5 +1,4 @@
 #!/bin/bash
-grep -q BOOTLOADER_INSTALLED $INSTALL_STATUS && return
 # configure refind
 # todo for encrypted disk
 # cryptdevice=${CRYPT_DEVICE_UUID_ARG}:crypt_disk
@@ -22,4 +21,3 @@ else
 	sed -i 's/#extra_kernel_version_strings.*$/extra_kernel_version_strings linux/' $refind_conf_location
     fi
 fi
-echo "BOOTLOADER_INSTALLED=true" >> $INSTALL_STATUS

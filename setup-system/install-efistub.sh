@@ -12,4 +12,4 @@ echo "EFI Partition Nr: $EFI_PARTITION_NR"
 
 # now we can cobble together the efibootmgr command with the previously extracted information generically
 # we expect to have a UKI (unified kernel image), available
-efibootmgr --create --disk $EFI_DISK --part $EFI_PARTITION_NR --loader 'EFI\arch\archlinux-linux.efi' --label 'Arch Linux' --unicode
+efibootmgr --create --disk $EFI_DISK --part $EFI_PARTITION_NR --loader '\EFI\arch\archlinux-linux.efi' --label 'Arch Linux' --unicode

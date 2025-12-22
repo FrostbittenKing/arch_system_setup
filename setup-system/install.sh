@@ -125,6 +125,11 @@ EOF
 
 function install_bootloader
 {
+    grep -q BOOTLOADER_INSTALLED $INSTALL_STATUS && return 0
+    # configure for uki image
+# echo "cryptdevice=${CRYPT_DEVICE_UUID_ARG}:crypt_disk root=/dev/arch_system_vg/arch_root_lv rootfstype=ext4 \
+# add_efi_memmap acpi_os_name=\"Windows 2015\" acpi_osi=  mem_sleep_default=s2idle i915.enable_fbc=1" > /etc/kernel/cmdline
+
     CRYPT_DEVICE_UUID_ARG="UUID="$(lsblk  -f -o FSTYPE,UUID | grep 'crypto_LUKS' | tr -s "[:space:]" | cut -f 2 -d ' ')
     EFI_PARTITION_MOUNT_POINT=$(findmnt --fstab -n -o TARGET,PARTLABEL | grep "EFI system partition" | cut -f 1 -d ' ')
     ROOT_DEV_UUID_ARG="UUID="$(findmnt --fstab -n -o TARGET,UUID | grep "/ " | tr -s "[:space:]" | cut -f 2 -d ' ')
@@ -132,7 +137,7 @@ function install_bootloader
 i915.enable_fbc=1" > /etc/kernel/cmdline
     export CRYPT_DEVICE_UUID_ARG EFI_PARTITION_MOUNT_POINT ROOT_DEV_UUID_ARG DEFAULT_KERNEL_ARGS INSTALL_STATUS
     # default bootloader efistub
-    $INSTALLER_DIR/setup-system/install-efistub.sh
+    bash $INSTALLER_DIR/setup-system/install-efistub.sh
     # additional loaders
     for loader in "${BOOTLOADERS}"
     do
@@ -143,6 +148,7 @@ i915.enable_fbc=1" > /etc/kernel/cmdline
 	esac
     done
     unset CRYPT_DEVICE_UUID_ARG EFI_PARTITION_MOUNT_POINT ROOT_DEV_UUID_ARG
+    echo "BOOTLOADER_INSTALLED=true" >> $INSTALL_STATUS
 }
 export INSTALLER_DIR ANSWER_FILE CONF_DIR PACKAGE_LIST_AUR PACKAGE_LIST_OPTIONAL
 
@@ -168,10 +174,6 @@ systemctl enable $SERVICE_LIST $DM
 # copy_git_configs
 
 install_bootloader
-# configure for uki image
-echo "cryptdevice=${CRYPT_DEVICE_UUID_ARG}:crypt_disk root=/dev/arch_system_vg/arch_root_lv rootfstype=ext4 \
-add_efi_memmap acpi_os_name=\"Windows 2015\" acpi_osi=  mem_sleep_default=s2idle i915.enable_fbc=1" > /etc/kernel/cmdline
-
 
 echo "Checkout an alternative bootloader if you don't like refind..."
 echo "see https://wiki.archlinux.org/index.php/Category:Boot_loaders for more info"
