@@ -9,7 +9,7 @@ function finish-install {
     FAILED_PKGS_OPT=""
 
     # check if yay is installed, and install it if not found
-    pacman -Qi yay 2&>1 > /dev/null
+    pacman -Qi yay 2>&1 > /dev/null
     if [ $? -ne 0 ]; then
 	mkdir -p /tmp/yay-build
 	curl -L $YAY_AUR_PKGBUILD_URL -o /tmp/yay-build/PKGBUILD
