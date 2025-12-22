@@ -26,7 +26,7 @@ EXTERN_CONFIGS_GIT=(https://github.com/FrostbittenKing/awesome-wm-config.git)
 YAY_AUR_PKGBUILD_URL='https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=yay'
 # todo maybe option to use grub or refind
 BOOTLOADERS=(grub refind)
-DEFAULT_BOOTLOADER=grub
+DEFAULT_BOOTLOADER=refind
 INSTALL_OPTIONAL_PACKAGES=1
 EOF
     echo "removing install status file"
@@ -37,6 +37,7 @@ EOF
 }
 
 function copy_cfg_to_target {
+    grep -q CFG_COPIED_TO_TARGET && return
     cp -r $INSTALLER_DIR $ROOT
     cp $ANSWER_FILE $ROOT
     echo "CFG_COPIED_TO_TARGET=true" >> $INSTALL_STATUS
@@ -44,6 +45,8 @@ function copy_cfg_to_target {
 }
 
 function get_and_extract_install_archive {
+    # skip if archive was fetched
+    grep -q ARCHIVE_FETCHED $INSTALL_STATUS && return
     # fetch install package
     curl -L $ARCH_SETUP_TAR_URL -o $ARCH_SETUP_TAR
     if [ ! -d $SCRIPT_DIR_ROOT ]; then
@@ -54,6 +57,7 @@ function get_and_extract_install_archive {
 }
 
 function pacstrap_step {
+    grep -q PACSTRAPPED $INSTALL_STATUS && return
     pacstrap $ROOT base
     echo "PACSTRAPPED=true" >> $INSTALL_STATUS
 }

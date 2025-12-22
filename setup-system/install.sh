@@ -20,6 +20,7 @@ function copy_system_configs {
 # configure timezone and localizations
 function configure_locale_and_timezone
 {
+    grep -q LOCALE_CONFIGURED $INSTALL_STATUS && return
     echo "Configure timezone and localization"
     ln -sv /usr/share/zoneinfo/$TIMEZONE /etc/localtime
     # not sure about that
@@ -43,6 +44,7 @@ function configure_locale_and_timezone
 # configure init ramfs
 function configure_initramfs
 {
+    grep -q INITRAMFS_INITIALIZED $INSTALL_STATUS && return
     sed -i 's/HOOKS=.*$/HOOKS=(base udev fsck kms autodetect block encrypt lvm2 filesystems keyboard shutdown)/' /etc/mkinitcpio.conf
     sed -i 's/#COMPRESSION_OPTIONS=.*$/COMPRESSION_OPTIONS=(-T0 -c -z)/'                                         /etc/mkinitcpio.conf
     sed -i 's/#default_uki=.*$/default_uki="\/boot\/archlinux-linux.efi"/'                                        /etc/mkinitcpio.d/linux.preset
@@ -54,12 +56,13 @@ function configure_initramfs
 # configure users
 function configure_users
 {
+    grep -q USERS_CONFIGURED $INSTALL_STATUS && return
     # root pw
     echo "enter new root password";passwd
 
     # create user
     # echo "please enter a username for your account: "; read username
-    useradd -m -G disk,wheel,uucp,games,lock,kvm,video -s $DEFAULT_SHELL $USERNAME
+    useradd -m -G disk,wheel,uucp,games,lock,kvm,video,power,wireshark,plugdev -s $DEFAULT_SHELL $USERNAME
     echo "get PASSWORD $USERNAME: "; passwd $USERNAME
     
     # enable sudo
@@ -70,12 +73,15 @@ function configure_users
 # install remaining main packages
 function install_mandatory_packages
 {
+    grep -q MAIN_PACKAGES_INSTALLED $INSTALL_STATUS && return
     cat $INSTALLER_DIR/$PACKAGE_LIST_INSTALL | xargs pacman -Syu --noconfirm --needed
+    echo "MAIN_PACKAGES_INSTALLED=true" >> $INSTALL_STATUS
 }
 
 
 function copy_my_configs
 {
+    grep -q MY_CONFIGS_COPIED $INSTALL_STATUS && return
     su $USERNAME <<'EOF'
     . $ANSWER_FILE
 
@@ -101,7 +107,7 @@ function copy_my_configs
         # chown -R $USERNAME.$USERNAME /home/$USERNAME
     }
 
-    cd /tmp 
+    cd /tmp
     copy_user_configs
     cd $HOME
     # create .zlogin file for last installation steps
@@ -114,6 +120,7 @@ EOF
 
 function install_bootloader
 {
+    grep -q BOOTLOADER_INSTALLED $INSTALL_STATUS && return
     CRYPT_DEVICE_UUID_ARG="UUID="$(lsblk  -f -o FSTYPE,UUID | grep 'crypto_LUKS' | tr -s "[:space:]" | cut -f 2 -d ' ')
     EFI_PARTITION_MOUNT_POINT=$(findmnt --fstab -n -o TARGET,PARTLABEL | grep "EFI system partition" | cut -f 1 -d ' ')
     ROOT_DEV_UUID_ARG="UUID="$(findmnt --fstab -n -o TARGET,UUID | grep "/ " | tr -s "[:space:]" | cut -f 2 -d ' ')
@@ -139,6 +146,7 @@ EOF
 	    sed -i 's/#extra_kernel_version_strings.*$/extra_kernel_version_strings linux/' $refind_conf_location	
 	fi
     fi
+    echo "BOOTLOADER_INSTALLED=true" >> $INSTALL_STATUS
 }
 
 export INSTALLER_DIR ANSWER_FILE CONF_DIR
@@ -157,11 +165,11 @@ copy_system_configs
 
 copy_my_configs
 
-# enable services
-ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
 # enable services and display manager
 systemctl enable $SERVICE_LIST $DM
 systemctl start $SERVICE_LIST
+rm -f /etc/resolv.conf
+ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
 
 # TODO configs
 # maybe fetch from its own repository, idk
