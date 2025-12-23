@@ -134,11 +134,13 @@ function install_bootloader
     EFI_PARTITION_MOUNT_POINT=$(findmnt --fstab -n -o TARGET,PARTLABEL | grep "EFI system partition" | cut -f 1 -d ' ')
     ROOT_DEV_UUID_ARG="UUID="$(findmnt --fstab -n -o TARGET,UUID | grep "/ " | tr -s "[:space:]" | cut -f 2 -d ' ')
     DEFAULT_KERNEL_ARGS="root=$ROOT_DEV_UUID_ARG rootfstype=ext4 add_efi_memmap acpi_os_name=""Windows 2015"" acpi_osi= mem_sleep_default=s2idle \
-i915.enable_fbc=1" > /etc/kernel/cmdline
+i915.enable_fbc=1"
     export CRYPT_DEVICE_UUID_ARG EFI_PARTITION_MOUNT_POINT ROOT_DEV_UUID_ARG DEFAULT_KERNEL_ARGS INSTALL_STATUS
+    # write cmdline for uki images
+    echo $DEFAULT_KERNEL_ARGS > /etc/kernel/cmdline
     # default bootloader efistub
     bash $INSTALLER_DIR/setup-system/install-efistub.sh
-    # additional loaders
+    # additional loaders as fallback if something is wrong with the uki image. We can't edit kernel arguments with efistub
     for loader in "${BOOTLOADERS}"
     do
 	case $loader in
@@ -147,7 +149,7 @@ i915.enable_fbc=1" > /etc/kernel/cmdline
 		;;
 	esac
     done
-    unset CRYPT_DEVICE_UUID_ARG EFI_PARTITION_MOUNT_POINT ROOT_DEV_UUID_ARG
+    unset CRYPT_DEVICE_UUID_ARG EFI_PARTITION_MOUNT_POINT ROOT_DEV_UUID_ARG DEFAULT_KERNEL_ARGS
     echo "BOOTLOADER_INSTALLED=true" >> $INSTALL_STATUS
 }
 export INSTALLER_DIR ANSWER_FILE CONF_DIR PACKAGE_LIST_AUR PACKAGE_LIST_OPTIONAL
@@ -156,9 +158,6 @@ export INSTALLER_DIR ANSWER_FILE CONF_DIR PACKAGE_LIST_AUR PACKAGE_LIST_OPTIONAL
 configure_locale_and_timezone
 
 install_mandatory_packages
-
-# create initramfs
-configure_initramfs
 
 configure_users
 
@@ -174,6 +173,9 @@ systemctl enable $SERVICE_LIST $DM
 # copy_git_configs
 
 install_bootloader
+
+# create initramfs, not sure if we need to do this after install_mandatory_packages, but then we need to rerun mkinitcpio due to to written cmdline in install_bootloaders step
+configure_initramfs
 
 echo "Checkout an alternative bootloader if you don't like refind..."
 echo "see https://wiki.archlinux.org/index.php/Category:Boot_loaders for more info"
