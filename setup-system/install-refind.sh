@@ -9,7 +9,7 @@ refind-install
 # $DEFAULT_KERNEL_ARGS is fed from the install.sh script
 # Also don't forget to configure refind.conf in /efi/EFI/refind or else the below argument %v doesn't work
 cat <<EOF > /boot/refind_linux.conf
-"Boot with standard options"  "root=$DEFAULT_KERNEL_ARGS initrd=\EFI\arch\intel-ucode.img initrd=\EFI\arch\initramfs-%v.img"
+"Boot with standard options"  "$DEFAULT_KERNEL_ARGS initrd=\EFI\arch\intel-ucode.img initrd=\EFI\arch\initramfs-%v.img"
 EOF
 # check if efi partition exists, and afterwards if refind.conf exists
 if [ -z $EFI_PARTITION_MOUNT_POINT ]; then
