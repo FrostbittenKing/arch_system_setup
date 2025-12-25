@@ -28,14 +28,12 @@ YAY_AUR_PKGBUILD_URL='https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=ya
 BOOTLOADERS=(refind)
 INSTALL_OPTIONAL_PACKAGES=1
 CLEANUP_AFTER_INSTALL=0
-CRYPT_DEVICE_NAME=crypt_root
 EOF
     echo "removing install status file"
     cat <<EOF > $INSTALL_STATUS
 ANSWER_FILE_WRITTEN=true
 EOF
     echo "Answer File $ANSWER_FILE written, please customize it to suit your purpose or restart this shell script"
-    echo "Attention: when you're using luks, make sure to configure the property CRYPT_DEVICE_NAME accordingly"
 }
 
 function copy_cfg_to_target {
