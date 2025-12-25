@@ -126,16 +126,20 @@ EOF
 function install_bootloader
 {
     grep -q BOOTLOADER_INSTALLED $INSTALL_STATUS && return 0
-    # configure for uki image
-# echo "cryptdevice=${CRYPT_DEVICE_UUID_ARG}:crypt_disk root=/dev/arch_system_vg/arch_root_lv rootfstype=ext4 \
-# add_efi_memmap acpi_os_name=\"Windows 2015\" acpi_osi=  mem_sleep_default=s2idle i915.enable_fbc=1" > /etc/kernel/cmdline
-    CRYPT_DEVICE_UUID="$(lsblk  -f -o FSTYPE,UUID | grep 'crypto_LUKS' | tr -s "[:space:]" | cut -f 2 -d ' ')"
-    test ! -z $CRYPT_DEVICE_UUID && CRYPT_DEVICE_ARG="cryptdevice=UUID=${CRYPT_DEVICE_UUID}:$CRYPT_DEVICE_NAME"
+    ROOT_NAME="$(findmnt -n -o SOURCE /)"
+    ROOT_DEVICE_TREE=$(lsblk -ls -n -o NAME,TYPE,FSTYPE "$ROOT_NAME")
+
+    # extract info about mounted crypt device and name, if encrypted, if there isn't CRYPT_DEVICE_ARG stays empty
+    CRYPT_ROOT_NAME=$(echo "$ROOT_DEVICE_TREE" | awk '$2=="crypt"{print $1; exit}')
+    LUKS_DEVICE="/dev/$(echo "$ROOT_DEVICE_TREE" | awk '$3=="crypto_LUKS"{print $1; exit}')"
+    CRYPT_DEVICE_UUID=$(cryptsetup luksUUID "$LUKS_DEVICE")
+    test ! -z $CRYPT_DEVICE_UUID && CRYPT_DEVICE_ARG="cryptdevice=UUID=$CRYPT_DEVICE_UUID:$CRYPT_ROOT_NAME"
+
     EFI_PARTITION_MOUNT_POINT=$(findmnt --fstab -n -o TARGET,PARTLABEL | grep "EFI system partition" | cut -f 1 -d ' ')
     ROOT_DEV_UUID_ARG="UUID="$(findmnt --fstab -n -o TARGET,UUID | grep "/ " | tr -s "[:space:]" | cut -f 2 -d ' ')
     DEFAULT_KERNEL_ARGS="$CRYPT_DEVICE_ARG root=$ROOT_DEV_UUID_ARG rootfstype=ext4 add_efi_memmap acpi_os_name=""Windows 2015"" acpi_osi= mem_sleep_default=s2idle \
 i915.enable_fbc=1"
-    export CRYPT_DEVICE_UUID_ARG EFI_PARTITION_MOUNT_POINT ROOT_DEV_UUID_ARG DEFAULT_KERNEL_ARGS INSTALL_STATUS
+    export EFI_PARTITION_MOUNT_POINT ROOT_DEV_UUID_ARG DEFAULT_KERNEL_ARGS INSTALL_STATUS
     # write cmdline for uki images
     echo $DEFAULT_KERNEL_ARGS > /etc/kernel/cmdline
     # default bootloader efistub
@@ -149,7 +153,7 @@ i915.enable_fbc=1"
 		;;
 	esac
     done
-    unset CRYPT_DEVICE_UUID_ARG EFI_PARTITION_MOUNT_POINT ROOT_DEV_UUID_ARG DEFAULT_KERNEL_ARGS
+    unset EFI_PARTITION_MOUNT_POINT ROOT_DEV_UUID_ARG DEFAULT_KERNEL_ARGS
     echo "BOOTLOADER_INSTALLED=true" >> $INSTALL_STATUS
 }
 export INSTALLER_DIR ANSWER_FILE CONF_DIR PACKAGE_LIST_AUR PACKAGE_LIST_OPTIONAL
