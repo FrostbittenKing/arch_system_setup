@@ -10,6 +10,7 @@ aspell-en
 autoconf
 automake
 awesome
+bluez
 btrfs-progs
 bzip2
 diffutils
