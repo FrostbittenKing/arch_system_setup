@@ -19,7 +19,7 @@ the second lists all packages from the aur, which are to be installed after the 
    In the future I I'd like to improve the answer file for more choices. But I'm not sure, maybe that's overengineered.
    
 ## installation:
-after the manual preliminary setup steps including mounting the corresponding partitions to /mnt, and the firest execution of package-install.sh,
+after the manual preliminary setup steps including mounting the corresponding partitions to /mnt, and the first execution of package-install.sh,
 execute ./package-install.sh a second time to start the setup process.
 finally, inside the sysroot (/mnt), /installer/arch_system_setup-master/setup-system/install.sh is executed,
 which configures the system after entering the chroot
@@ -27,21 +27,30 @@ which configures the system after entering the chroot
 ## final steps configured by install.sh
 - zoneinfo
 - locale-gen
-- enable dhcpcd and slim
-- create initramfs
+- enable lxdm, NetworkManager and systemd-resolved
 - enter new root password
 - create user (itachi)
 - ask for password for user
+- install bootloaders (refind), and add an UEFI boot entry to directly load the arch linux' UKI
+- create initramfs
 - configure:
   - zsh
   - git config
-- install aur packages (configured by arch_packages_aur.txt)
+- install AUR packages (configured by arch_packages_aur.txt)
 ## login shell
 When logging in as a user, the setup-complete.sh script is executed.
 This installs yay, the additional package-manager for the AUR, and installs all packages from the arch_packages_aur.txt file (including oh-my-zsh).
 
 ## finishing steps
-If you don't like refind, install a boot loader of your choice
+The default boot entry is created with efibootmgr using efistub loading a UKI (unified kernel image is created) from /efi/EFI/arch/archlinux-linux.efi, using the following default kernel arguments:
+```root=UUID=<uuid> rootfstype=ext4 add_efi_memmap acpi_os_name=Windows 2015 acpi_osi= mem_sleep_default=s2idle i915.enable_fbc=1
+If something doesn't work with the default boot config (the default kernel args are contained in /etc/kernel/cmdline), we also installed the refind boot manager for convenience. Before booting, 
+it's possible to edjust the kernel arguments in refind (eg: to boot into multi-user mode, without xserver: add systemd.unit=multi-user.target).
+If you don't like refind, install a boot loader of your choice.
+
+TLDR: there should be two additional entries in the efi boot menu:
+- "Arch Linux"
+- "rEFInd Boot manager"
 
 # todo:
 - add routines to copy various config files to their destinations

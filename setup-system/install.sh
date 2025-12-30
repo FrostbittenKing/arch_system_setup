@@ -13,7 +13,7 @@ CONF_DIR=$INSTALLER_DIR/conf
 # copy user configs
 function copy_system_configs {
     cp -a $CONF_DIR/etc /
-    sed -i 's/#\ session=.*$/session=\/usr\/bin\/awesome/'      /etc/lxdm/lxdm.conf
+    sed -i 's/#\ session=.*$/session=\/usr\/bin\/awesome/'     /etc/lxdm/lxdm.conf
     sed -i 's/gtk_theme=.*$/gtk_theme=Clearlooks/'             /etc/lxdm/lxdm.conf
     sed -i 's/theme=.*$/theme=Arch-Dark/'                      /etc/lxdm/lxdm.conf
     # todo fix config
@@ -24,7 +24,8 @@ function configure_locale_and_timezone
 {
     grep -q LOCALE_CONFIGURED $INSTALL_STATUS && return
     echo "Configure timezone and localization"
-    ln -sv /usr/share/zoneinfo/$TIMEZONE /etc/localtime
+    ln -sfv /usr/share/zoneinfo/$TIMEZONE /etc/localtime
+    timedatectl set-ntp true
     # not sure about that
     # hwclock --systohc --utc
     #enable localizations
@@ -51,7 +52,7 @@ function configure_initramfs
     sed -i 's/#COMPRESSION_OPTIONS=.*$/COMPRESSION_OPTIONS=(-T0 -c -z)/'                                         /etc/mkinitcpio.conf
     sed -i 's/#default_uki=.*$/default_uki="\/boot\/archlinux-linux.efi"/'                                        /etc/mkinitcpio.d/linux.preset
     sed -i 's/#default_options=.*$/default_options="--splash=\/usr\/share\/systemd\/bootctl\/splash-arch.bmp"/'  /etc/mkinitcpio.d/linux.preset
-    mkinitcpio -p linux
+    mkinitcpio -P
     echo "INITRAMFS_INITIALIZED=true" >> $INSTALL_STATUS
 }
 

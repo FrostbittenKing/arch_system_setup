@@ -14,7 +14,7 @@ ARCH_SETUP_TAR_URL=https://github.com/FrostbittenKing/arch_system_setup/archive/
 ROOT=/mnt
 SYSTEM_SETUP_DIR=$ROOT/arch_system_setup-master/setup-system
 # list of services to enable
-SERVICE_LIST="NetworkManager.service systemd-resolved.service"
+SERVICE_LIST="NetworkManager.service systemd-resolved.service bluetooth.service"
 # change to your favorite Display manager
 DM="lxdm.service"
 TIMEZONE=Europe/Vienna
@@ -70,10 +70,6 @@ fi
 . $ANSWER_FILE
 
 get_and_extract_install_archive
-
-# TODO: stable version that works over time
-# copy pacman.conf
-# cp $INSTALLER_DIR/conf/pacman.conf /etc/pacman.conf
 
 #install packages with pacstrap
 pacstrap_step

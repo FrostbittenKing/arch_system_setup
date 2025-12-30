@@ -13,7 +13,7 @@ function finish-install {
     if [ $? -ne 0 ]; then
 	mkdir -p /tmp/yay-build
 	curl -L $YAY_AUR_PKGBUILD_URL -o /tmp/yay-build/PKGBUILD
-	yes | makepkg -Cscfi -D /tmp/yay-build
+	yes | makepkg -Ccfirs -D /tmp/yay-build
     fi
     
     for i in $(cat $PACKAGE_LIST_AUR); do
@@ -33,6 +33,7 @@ function finish-install {
     echo "Following Packages failed from aur: $FAILED_PKGS"
     echo "Following optional Packages failed from aur: $FAILED_PKGS_OPT"
     echo "please review setup-complete.log for more details"
+    systemctl --user enable podman.socket podman.service gcr-ssh-agent.service
 }
 
 function setup-complete {

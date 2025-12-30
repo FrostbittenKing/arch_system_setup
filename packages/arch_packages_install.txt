@@ -25,7 +25,7 @@ foomatic-db
 foomatic-db-nonfree
 freerdp
 gcc-multilib
-gsettings-desktop-schemas
+gcr
 ghex
 git
 gnome-calculator
@@ -33,6 +33,7 @@ gnome-keyring
 gnome-system-monitor
 gnuplot
 gptfdisk
+gsettings-desktop-schemas
 hdparm
 htop
 hwinfo
