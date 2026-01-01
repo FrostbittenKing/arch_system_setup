@@ -27,7 +27,7 @@ YAY_AUR_PKGBUILD_URL='https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=ya
 # todo maybe option to use grub or refind
 BOOTLOADERS=(refind)
 INSTALL_OPTIONAL_PACKAGES=1
-YADM_REPO=https://itachi@forgejo.homelab.anonymous.securedlan/itachi/dotfiles.git
+YADM_REPO=https://itachi@forgejo.home.dahmit.eu/itachi/dotfiles.git
 CLEANUP_AFTER_INSTALL=0
 EOF
     echo "removing install status file"
