@@ -89,4 +89,5 @@ wget
 xorg
 xorg-fonts
 xorg-xrandr
+yadm
 zsh
