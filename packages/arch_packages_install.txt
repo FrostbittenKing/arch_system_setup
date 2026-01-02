@@ -43,6 +43,7 @@ jdk-openjdk
 lvm2
 lxappearance
 lxdm
+lxqt-policykit
 net-tools
 networkmanager
 network-manager-applet

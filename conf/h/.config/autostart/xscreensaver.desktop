@@ -1,7 +1,0 @@
-[Desktop Entry]
-Name=xscreensaver
-Exec=xscreensaver -no-splash
-Terminal=false
-Type=Application
-Encoding=UTF-8
-Categories=System;Application;
