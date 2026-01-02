@@ -34,8 +34,9 @@ function finish-install {
     echo "Following optional Packages failed from aur: $FAILED_PKGS_OPT"
     echo "please review setup-complete.log for more details"
     systemctl --user enable podman.socket podman.service gcr-ssh-agent.service
-
-    GIT_SSL_NO_VERIFY=true yadm clone --bootstrap $YADM_REPO
+    echo "configure git credentials helper for git+https"
+    git config --global credential.helper /usr/lib/git-core/git-credential-libsecret
+    yadm clone --bootstrap $YADM_REPO
 }
 
 function setup-complete {
