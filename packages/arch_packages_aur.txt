@@ -1,5 +1,4 @@
 awesome-freedesktop-git
-dex
 gnome-icon-theme-extras
 gnu-netcat
 google-chrome

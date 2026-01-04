@@ -36,6 +36,8 @@ function finish-install {
     systemctl --user enable podman.socket podman.service gcr-ssh-agent.service
     echo "configure git credentials helper for git+https"
     git config --global credential.helper /usr/lib/git-core/git-credential-libsecret
+    # this is kinda stupid, but we used .xprofile to trigger this script, and for yadm to copy the .xprofile from the repo, we need to delete the .xprofile we just used once
+    rm $HOME/.xprofile
     yadm clone --bootstrap $YADM_REPO
 }
 
