@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=FinishUserConfiguration
+Exec=~/setup-complete.sh
+Terminal=true
+Type=Application
+Encoding=UTF-8
+Categories=System;Application;

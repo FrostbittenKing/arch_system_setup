@@ -43,7 +43,7 @@ function setup-complete {
     rm $HOME/setup-complete.sh
     rm $PACKAGE_LIST_AUR
     rm $PACKAGE_LIST_OPTIONAL
-    sed -i '/$HOME\/setup-complete.sh/d' .zlogin
+    rm $HOME/.config/autostart/setup-complete.desktop
 }
 
 finish-install
