@@ -1,5 +1,6 @@
 base
 base-devel
+blueman
 linux
 linux-firmware
 alsa-utils
@@ -45,6 +46,7 @@ lvm2
 lxappearance
 lxdm
 lxqt-policykit
+lxqt-powermanagement
 net-tools
 networkmanager
 network-manager-applet
@@ -92,5 +94,6 @@ xss-lock
 xorg
 xorg-fonts
 xorg-xrandr
+xscreensaver
 yadm
 zsh
