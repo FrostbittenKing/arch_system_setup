@@ -103,8 +103,9 @@ function copy_my_configs
             rm -rf $repo_dir
         done
     }
-
     function copy_user_configs {
+        # for now this only copies the autostart file to bootstrap the
+        # yadm (dotfiles) user-config installation via autostart mechanism
         cp -a $CONF_DIR/h/. $HOME
         copy_git_configs
         # chown -R $USERNAME.$USERNAME /home/$USERNAME
