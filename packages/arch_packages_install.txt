@@ -95,5 +95,6 @@ xorg
 xorg-fonts
 xorg-xrandr
 xscreensaver
+xterm
 yadm
 zsh

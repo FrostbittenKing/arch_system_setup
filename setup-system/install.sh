@@ -78,6 +78,8 @@ function install_mandatory_packages
 {
     grep -q MAIN_PACKAGES_INSTALLED $INSTALL_STATUS && return
     cat $INSTALLER_DIR/$PACKAGE_LIST_INSTALL | xargs pacman -Syu --noconfirm --needed
+    # configure terminal for default rc.lua
+    sed -i 's|terminal = "xterm"|terminal = "urxvt"|' /etc/xdg/awesome/rc.lua
     echo "MAIN_PACKAGES_INSTALLED=true" >> $INSTALL_STATUS
 }
 
