@@ -117,7 +117,7 @@ function copy_my_configs
     copy_user_configs
     cd $HOME
     # create .zlogin file for last installation steps
-    echo 'dex -a -e awesome --term xterm' >> .xprofile
+    echo 'dex -a -e awesome --term urxvt' >> .xprofile
     cp $INSTALLER_DIR/setup-system/setup-complete.sh .
     cp $INSTALLER_DIR/$PACKAGE_LIST_AUR .
     cp $INSTALLER_DIR/$PACKAGE_LIST_OPTIONAL .
