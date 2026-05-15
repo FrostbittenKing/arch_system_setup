@@ -4,7 +4,6 @@ blueman
 linux
 linux-firmware
 alsa-utils
-amarok
 android-udev
 aspell-de
 aspell-en

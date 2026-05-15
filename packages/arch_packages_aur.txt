@@ -1,7 +1,6 @@
 awesome-freedesktop-git
+brave-bin
 gnome-icon-theme-extras
-gnu-netcat
-google-chrome
 libpng14
 log4j
 lxdm-themes
