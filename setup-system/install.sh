@@ -79,7 +79,6 @@ function install_mandatory_packages
     grep -q MAIN_PACKAGES_INSTALLED $INSTALL_STATUS && return
     cat $INSTALLER_DIR/$PACKAGE_LIST_INSTALL | xargs pacman -Syu --noconfirm --needed
     # configure terminal for default rc.lua
-    sed -i 's|terminal = "xterm"|terminal = "urxvt"|' /etc/xdg/awesome/rc.lua
     echo "MAIN_PACKAGES_INSTALLED=true" >> $INSTALL_STATUS
 }
 
@@ -117,7 +116,7 @@ function copy_my_configs
     copy_user_configs
     cd $HOME
     # create .zlogin file for last installation steps
-    echo 'dex -a -e awesome --term urxvt' >> .xprofile
+    echo 'dex -a -e awesome --term xterm' >> .xprofile
     cp $INSTALLER_DIR/setup-system/setup-complete.sh .
     cp $INSTALLER_DIR/$PACKAGE_LIST_AUR .
     cp $INSTALLER_DIR/$PACKAGE_LIST_OPTIONAL .
