@@ -40,7 +40,6 @@ hdparm
 htop
 hwinfo
 intel-ucode
-jdk-openjdk
 lvm2
 lxappearance
 lxdm
@@ -71,7 +70,6 @@ strace
 system-config-printer
 terminus-font
 texlive-basic
-thunderbird
 traceroute
 ttf-bitstream-vera
 ttf-dejavu
@@ -90,8 +88,6 @@ volumeicon
 wireshark-qt
 wget
 xss-lock
-xorg
-xorg-fonts
 xorg-xrandr
 xscreensaver
 xterm

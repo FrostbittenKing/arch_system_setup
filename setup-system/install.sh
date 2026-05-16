@@ -108,6 +108,7 @@ function copy_my_configs
         # for now this only copies the autostart file to bootstrap the
         # yadm (dotfiles) user-config installation via autostart mechanism
         cp -a $CONF_DIR/h/. $HOME
+        # this does nothing atm, since EXTERN_CONFIGS_GIT is an empty array
         copy_git_configs
         # chown -R $USERNAME.$USERNAME /home/$USERNAME
     }

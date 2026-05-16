@@ -1,3 +1,4 @@
+jdk-openjdk
 awesome-freedesktop-git
 brave-bin
 gnome-icon-theme-extras
@@ -11,4 +12,3 @@ tcptraceroute
 urxvt-font-size-git
 urxvt-fullscreen
 urxvt-vtwheel
-

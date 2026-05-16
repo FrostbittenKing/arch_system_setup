@@ -22,7 +22,8 @@ LOCALIZATIONS=("en_US.UTF-8 UTF-8")
 SYS_LANGUAGE='LANG=en_US.UTF-8'
 USERNAME=itachi
 DEFAULT_SHELL=/usr/bin/zsh
-EXTERN_CONFIGS_GIT=(https://github.com/FrostbittenKing/awesome-wm-config.git)
+# future stuff, not to be installed via yadm
+EXTERN_CONFIGS_GIT=()
 YAY_AUR_PKGBUILD_URL='https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=yay'
 # todo maybe option to use grub or refind
 BOOTLOADERS=(refind)
